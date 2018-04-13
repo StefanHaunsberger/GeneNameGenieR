@@ -1,12 +1,7 @@
-<style>
-th,td{
-padding:2px 2px 2px 2px;
-}
-</style>
 
 Build: 
 
-<table border="0">
+<table border="0" cellpadding="5">
 <tbody>
 <tr>
 <td>
