@@ -1,7 +1,5 @@
 ---
-output: 
-  html_document: 
-    theme: spacelab
+output: html_document
 ---
 
 # _GeneNameGenieR_
