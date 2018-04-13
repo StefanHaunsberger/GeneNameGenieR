@@ -1,0 +1,18 @@
+Package: GeneNameGenieR
+Type: Package
+Title: Graph DB powered molecular identifier converter: Convert any molecular identifier to any target identifier
+Version: 0.1.0
+Authors@R: person("Stefan", "Haunsberger", "J.", email =
+        "stefan.haunsberger@gmail.com", role = c("aut", "cre"))
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: Input gene symbols, aliases, transcript IDs, 
+	protein IDs or miRNA IDs, convert them to desired target 
+	DB identifier using miRBase and Ensembl DB
+License: Artistic-2.0
+Encoding: UTF-8
+LazyData: true
+Imports: dplyr, RNeo4j, magrittr
+RoxygenNote: 6.0.1
+NeedsCompilation: no
+Author: Stefan Haunsberger [aut, cre]
+Maintainer: Stefan J. Haunsberger <stefan.haunsberger@gmail.com>
