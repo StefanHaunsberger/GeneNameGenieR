@@ -20,7 +20,7 @@ The _GeneNameGenieR_ R package has been developed to provide functions for molec
 
 The binary package version can be downloaded from the following link: 
 
-[GeneNameGenieR.tar.gz](https://drive.google.com/open?id=1Tc3wyDY9KJThFgyJG3wap8z-0sNew4Bn)
+[GeneNameGenieR.tar.gz](https://drive.google.com/open?id=1sKT48UO5nawsF69idtxurX1IvjWtD1XO)
 
 Alternatively one can install it using the following R command from the [devtools](https://github.com/r-lib/devtools) package:
 
