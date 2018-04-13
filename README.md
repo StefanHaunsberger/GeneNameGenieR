@@ -1,8 +1,8 @@
 <style>
-   th,td{
-     padding:2px 2px 2px 2px;
-   }
- </style>
+th,td{
+padding:2px 2px 2px 2px;
+}
+</style>
 
 Build: 
 
@@ -49,6 +49,18 @@ The _GeneNameGenieR_ R package has been developed to provide functions for molec
        - [Translate mature miRNA names to different miRBase release versions](#translate-mature-mirna-names-to-different-mirbase-release-versions)
    - [List valid databases and supported parameter values](#list-valid-databases-and-supported-parameter-values)
    - [Additional information](#additional-information)
+
+*Availability:* 
+
+The binary package version can be downloaded from the following link: 
+
+[GeneNameGenieR.tar.gz](https://drive.google.com/open?id=1Tc3wyDY9KJThFgyJG3wap8z-0sNew4Bn)
+
+Alternatively one can install it using the following R command from the [devtools](https://github.com/r-lib/devtools) package:
+
+```r
+install_github("StefanHaunsberger/GeneNameGenieR")
+```
 
 # Introduction
 

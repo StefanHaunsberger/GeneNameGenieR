@@ -16,6 +16,13 @@ A \preformatted{data.frame} object with the columns DatabaseDisplayName and Data
 Returns a table containing all supported DBs with DB name and ID. The ID can
 used for example as targetDbs parameter in the \code{query} and \code{convertFromTo} function.
 }
+\examples{
+\dontrun{
+  gng = GeneNameGenieR();
+  getValidDatabases(gng);
+}
+
+}
 \seealso{
 \code{\link{query}} and \code{\link{convertFromTo}}
 }

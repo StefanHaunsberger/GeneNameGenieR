@@ -9,8 +9,3 @@ getCurrentMirbaseVersion(gng)
 \arguments{
 \item{gng}{An instance of the \code{GeneNameGenieR} object (e.g. \preformatted{gng = GeneNameGenieR()})}
 }
-\examples{
-\dontrun{
-  getCurrentMirbaseVersion(GeneNameGenieR());
-}
-}

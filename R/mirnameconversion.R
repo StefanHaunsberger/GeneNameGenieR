@@ -77,7 +77,6 @@ setGeneric(
         standardGeneric("convertToCurrentMirbaseVersion")
     })
 
-#' @export
 setMethod("convertToCurrentMirbaseVersion",
           signature(gng = "GeneNameGenieR"),
   function(gng, queryId, species, metadata) {
@@ -106,7 +105,7 @@ setMethod("convertToCurrentMirbaseVersion",
               }}), collapse = ", "));
       }
 
-      x = cypher(gng@graph, q,
+      x = RNeo4j::cypher(gng@graph, q,
                  queryIds = queryId,
                  species = species,
                  metadata = metadata);
@@ -182,10 +181,9 @@ setGeneric(
     "convertMatureMirnasToVersions",
     signature = c("gng"),
     function(gng, queryId, targetVersion = NA_integer_, species = "", sequence = FALSE) {
-        standardGeneric("convertMatureMirnas")
+        standardGeneric("convertMatureMirnasToVersions")
     })
 
-#' @export
 setMethod("convertMatureMirnasToVersions",
           signature(gng = "GeneNameGenieR"),
           function(gng, queryId, targetVersion, species, sequence) {
@@ -212,7 +210,7 @@ setMethod("convertMatureMirnasToVersions",
                   q = paste0(q, ", value.TargetSequence AS TargetSequence");
               }
 
-              x = cypher(gng@graph, q,
+              x = RNeo4j::cypher(gng@graph, q,
                          queryIds = queryId,
                          versions = targetVersion,
                          species = species,

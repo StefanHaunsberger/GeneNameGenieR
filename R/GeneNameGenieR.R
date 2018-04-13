@@ -1,5 +1,6 @@
 library(RNeo4j)
 library(dplyr)
+library(magrittr)
 
 source("R/parameters.R")
 
@@ -34,7 +35,7 @@ GeneNameGenieR = setClass("GeneNameGenieR",
                         Ens_Hs_translation = "EnsemblProteinId")
     )
 );
-
+#' @export
 GeneNameGenieR = function(url = NA_character_) {
     if (is.na(url)) {
         url = DEFAULT_URL;
@@ -73,6 +74,8 @@ setValidity("GeneNameGenieR", validGeneNameGenieObject)
 #' alternative human chromosomes, such as CHR_HSCHR5_6_CTG1. In the case where \preformatted{chromosomal} is \preformatted{FALSE}, not even input
 #' identifiers that are associated with this location will be found.
 #'
+#' @importFrom magrittr %>%
+#'
 #' @export
 setGeneric(
     "getOfficialGeneSymbol",
@@ -97,7 +100,7 @@ setMethod("getOfficialGeneSymbol",
       "   value.InputSourceDb AS InputSourceDb, ",
       "   value.OfficialGeneSymbol AS OfficialGeneSymbol");
 
-  x = cypher(gng@graph, q,
+  x = RNeo4j::cypher(gng@graph, q,
              ids = queryId,
              sourceDb = sourceDb,
              chromosomal = chromosomal);
@@ -159,7 +162,7 @@ setMethod("convertFromTo",
                "value.TargetDb AS TargetDb, ",
                "value.TargetId AS TargetId;");
 
-    x = cypher(gng@graph, q,
+    x = RNeo4j::cypher(gng@graph, q,
                ids = queryId,
                dbs = tDb,
                sourceDb = sourceDb,
@@ -263,7 +266,7 @@ setMethod("query",
              ifelse(length(params) == 1, ifelse(is.na(params), "null, ", "[{params}], "), "{params}, "),
              ifelse(is.na(sourceDb), "null, ", "{sourceDb}, "), "{chromosomal});");
 
-    res = cypherToList(gng@graph, q,
+    res = RNeo4j::cypherToList(gng@graph, q,
                        ids = queryId,
                        dbs = tDb,
                        params = params,

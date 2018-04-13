@@ -16,6 +16,12 @@ A \preformatted{data.frame} object with the columns DatabaseDisplayName and Data
 Returns a table containing all supported attributes that can serve as
 'params' input parameter in the \code{\link{query}} function.
 }
+\examples{
+\dontrun{
+  gng = GeneNameGenieR();
+  getValidGngAttributes(gng);
+}
+}
 \seealso{
 \code{\link{query}}
 }
