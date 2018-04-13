@@ -9,9 +9,9 @@ source("R/parameters.R")
 #' @name GeneNameGenieR
 #' @description
 #'
+#'
 #' For bug reports, please
-#' \href{https://github.com/xxx/xxx/issues}{create a new GitHub issue}.
-#' For support, please \href{http://stackoverflow.com/questions/tagged/xxx}{create a question on StackOverflow}.
+#' \href{https://github.com/StefanHaunsberger/GeneNameGenieR/issues}{create a new GitHub issue}.
 
 DEFAULT_URL = "http://localhost:7474/db/data/";
 URL = DEFAULT_URL;
@@ -35,6 +35,7 @@ GeneNameGenieR = setClass("GeneNameGenieR",
                         Ens_Hs_translation = "EnsemblProteinId")
     )
 );
+#' @param url : Graph database URL, such as "http://localhost:7474/db/data/"
 #' @export
 GeneNameGenieR = function(url = NA_character_) {
     if (is.na(url)) {
@@ -45,16 +46,16 @@ GeneNameGenieR = function(url = NA_character_) {
     return(g);
 }
 
-validGeneNameGenieObject = function(object) {
-    # errors = character(0)
-    #
-    # if (length(errors) > 0) {
-    #     errors
-    # } else {
-    #     TRUE
-    # }
-    TRUE
-}
+# validGeneNameGenieObject = function(object) {
+#     errors = character(0);
+#
+#     if (length(errors) > 0) {
+#         errors
+#     } else {
+#         TRUE
+#     # }
+#     TRUE
+# }
 
 setValidity("GeneNameGenieR", validGeneNameGenieObject)
 
