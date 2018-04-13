@@ -1,7 +1,3 @@
----
-output: html_document
----
-
 # _GeneNameGenieR_
 
 The _GeneNameGenieR_ R package has been developed to provide functions for molecular identifier conversion, such as gene symbols, aliases, transcripts and miRNAs. The base thereby is a Neo4j graph database containing identifiers from Ensembl v91 and 22 miRBase release versions ([miRBase](http://www.mirbase.org)).
