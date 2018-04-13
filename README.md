@@ -1,3 +1,39 @@
+<style>
+   th,td{
+     padding:2px 2px 2px 2px;
+   }
+ </style>
+
+Build: 
+
+<table border="0">
+<tbody>
+<tr>
+<td>
+<span class="do_not_rebase"><a href="#archives"><img border="0" src="https://bioconductor.org/shields/availability/3.6/miRNAmeConverter.svg" title="Whether the package is available on all platforms; click for details."></a></span>
+</td>
+<td>
+<a href="http://bioconductor.org/packages/stats/bioc/miRNAmeConverter/"><img border="0" src="https://bioconductor.org/shields/downloads/miRNAmeConverter.svg" title="Percentile (top 5/20/50% or 'available') of 'download score'. Comparison is done across all package categories (software, annotation, experiment). The 'download score' is the average number of distinct IPs that 'hit' the package each month for the last 12 months (not counting the current month)."></a>
+</td>
+<td>
+<a href="https://support.bioconductor.org/t/mirnameconverter/"><img border="0" src="https://bioconductor.org/shields/posts/miRNAmeConverter.svg" title="Support site activity, last 6 months: tagged questions/avg. answers per question/avg. comments per question/accepted answers, or 0 if no tagged posts."></a>
+</td>
+<td>
+<span class="do_not_rebase"><a href="#since"><img border="2" src="https://bioconductor.org/shields/years-in-bioc/miRNAmeConverter.svg" title="How long since the package was first in a released Bioconductor version (or is it in devel only)."></a></span>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+Release: <a href="http://bioconductor.org/checkResults/release/bioc-LATEST/miRNAmeConverter/"><img border="0" src="https://bioconductor.org/shields/build/release/bioc/miRNAmeConverter.svg" title="build results; click for full report"></a>
+</td>
+<td colspan="2">
+Devel: <a href="http://bioconductor.org/checkResults/release/bioc-LATEST/miRNAmeConverter/"><img border="0" src="https://bioconductor.org/shields/build/devel/bioc/miRNAmeConverter.svg" title="build results; click for full report"></a>
+</td>
+</tr>
+</tbody>
+</table>
+
+
 # _GeneNameGenieR_
 
 The _GeneNameGenieR_ R package has been developed to provide functions for molecular identifier conversion, such as gene symbols, aliases, transcripts and miRNAs. The base thereby is a Neo4j graph database containing identifiers from Ensembl v91 and 22 miRBase release versions ([miRBase](http://www.mirbase.org)).
