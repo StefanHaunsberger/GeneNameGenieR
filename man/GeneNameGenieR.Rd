@@ -4,15 +4,20 @@
 \name{GeneNameGenieR}
 \alias{GeneNameGenieR}
 \alias{DEFAULT_URL}
+\alias{GeneNameGenieR}
 \title{GeneNameGenieR: Lightning fast graph based gene name converter}
 \format{An object of class \code{character} of length 1.}
 \usage{
 DEFAULT_URL
+
+GeneNameGenieR(url = NA_character_)
+}
+\arguments{
+\item{url}{: Graph database URL, such as "http://localhost:7474/db/data/"}
 }
 \description{
 For bug reports, please
-\href{https://github.com/xxx/xxx/issues}{create a new GitHub issue}.
-For support, please \href{http://stackoverflow.com/questions/tagged/xxx}{create a question on StackOverflow}.
+\href{https://github.com/StefanHaunsberger/GeneNameGenieR/issues}{create a new GitHub issue}.
 }
 \author{
 Stefan J. Haunsberger

@@ -57,7 +57,7 @@ GeneNameGenieR = function(url = NA_character_) {
 #     TRUE
 # }
 
-setValidity("GeneNameGenieR", validGeneNameGenieObject)
+# setValidity("GeneNameGenieR", validGeneNameGenieObject)
 
 #' @title Convert input id to its corresponding official gene symbol
 #'
