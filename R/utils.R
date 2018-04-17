@@ -238,11 +238,11 @@ postCheckInput = function(x) {
     # Find all input values that resolve to multiple input sources
     # e.g. '596' is an EntrezGene ID as well as a WikiGene ID
     x2 = x %>%
-        select(InputId, InputSourceDb) %>%
+        dplyr::select(InputId, InputSourceDb) %>%
         unique() %>%
-        group_by(InputId) %>%
-        summarise(n = n()) %>%
-        filter(n > 1);
+        dplyr::group_by(InputId) %>%
+        dplyr::summarise(n = n()) %>%
+        dplyr::filter(n > 1);
 
     if (nrow(x2) != 0) {
         warning("Input identifier(s) match to more than one input source database");
@@ -253,11 +253,11 @@ postCheckInput = function(x) {
 
 postCheckMirnaTranslation = function(x, input) {
     x2 = x %>%
-        select(InputId, MatureAccession) %>%
+        dplyr::select(InputId, MatureAccession) %>%
         unique() %>%
-        group_by(InputId) %>%
-        summarise(n = n()) %>%
-        filter(n > 1);
+        dplyr::group_by(InputId) %>%
+        dplyr::summarise(n = n()) %>%
+        dplyr::filter(n > 1);
 
     if (nrow(x2) != 0) {
         warning("Input identifier(s) match to more than one MIMAT accession!");
@@ -273,11 +273,11 @@ postCheckMirnaTranslation = function(x, input) {
 
 postCheckMirnaTranslation2 = function(x, input) {
     x2 = x %>%
-        select(InputId, Accession) %>%
+        dplyr::select(InputId, Accession) %>%
         unique() %>%
-        group_by(InputId) %>%
-        summarise(n = n()) %>%
-        filter(n > 1);
+        dplyr::group_by(InputId) %>%
+        dplyr::summarise(n = n()) %>%
+        dplyr::filter(n > 1);
 
     if (nrow(x2) != 0) {
         warning("Some input identifiers match to more than one MIMAT accession!");

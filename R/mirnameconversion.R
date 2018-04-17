@@ -111,7 +111,7 @@ setMethod("convertToCurrentMirbaseVersion",
                  metadata = metadata);
 
       x = dplyr::distinct(x);
-      postCheckMirnaTranslation2(x);
+      postCheckMirnaTranslation2(x, queryId);
 
       return(x);
 
@@ -218,7 +218,7 @@ setMethod("convertMatureMirnasToVersions",
 
               x = dplyr::distinct(x);
 
-              postCheckMirnaTranslation(x);
+              postCheckMirnaTranslation(x, queryId);
 
               return(x);
 
