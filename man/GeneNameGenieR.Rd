@@ -5,9 +5,15 @@
 \alias{GeneNameGenieR}
 \alias{GeneNameGenieR-package}
 \alias{GeneNameGenieR}
+\alias{GeneNameGenieR}
 \title{GeneNameGenieR: Lightning fast graph based gene name converter}
 \usage{
-GeneNameGenieR(...)
+GeneNameGenieR(url = NA_character_)
+
+GeneNameGenieR(url = NA_character_)
+}
+\arguments{
+\item{url}{: Graph database URL, such as "http://localhost:7474/db/data/"}
 }
 \description{
 

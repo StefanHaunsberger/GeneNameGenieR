@@ -9,10 +9,6 @@ library(RNeo4j)
 library(dplyr)
 library(magrittr)
 
-source("R/parameters.R")
-# source("R/utils.R")
-# source("R/mirnameconverter.R")
-
 DEFAULT_URL = "http://localhost:7474/db/data/";
 URL = DEFAULT_URL;
 setOldClass("graph")
@@ -45,64 +41,69 @@ GeneNameGenieR = setClass("GeneNameGenieR",
                         Ens_Hs_translation = "EnsemblProteinId")
     )
 );
+# #' @exportClass GeneNameGenieR
 
-# #' @param url : Graph database URL, such as "http://localhost:7474/db/data/"
-# #' @export
-# GeneNameGenieR = function(url = NA_character_) {
-#     if (is.na(url)) {
-#         url = DEFAULT_URL;
-#     }
-#     g = new("GeneNameGenieR", url = url);
-#     g@graph = RNeo4j::startGraph(url);
-#     return(g);
-# }
+#' @param url : Graph database URL, such as "http://localhost:7474/db/data/"
+#' @export
+GeneNameGenieR = function(url = NA_character_) {
+    if (is.na(url)) {
+        url = DEFAULT_URL;
+    }
+    g = new("GeneNameGenieR", url = url);
+    g@graph = RNeo4j::startGraph(url);
+    return(g);
+}
 
 ##### initialization ####
 # Initialization function (constructor)
-setMethod(
-    f = "initialize",
-    signature("GeneNameGenieR"),
-    definition = function(.Object) {
+# setMethod(
+#     f = "initialize",
+#     signature("GeneNameGenieR"),
+#     definition = function(.Object, url) {
+#
+#         args = as.list(match.call());
+#         url = "";
+#         print(args)
+#         if (is.na(args["url"])) {
+#             url = DEFAULT_URL;
+#         } else {
+#             url = args["url"];
+#         }
+#         .Object@graph = RNeo4j::startGraph(url);
+#
+#         return(.Object);
+#     }
+# )
 
-        args = as.list(match.call());
-        url = "";
-        if (is.na(args["url"])) {
-            url = DEFAULT_URL;
-        } else {
-            url = args["url"];
-        }
-        .Object@graph = RNeo4j::startGraph(url);
-
-        return(.Object);
-    }
-)
-
-##### GeneNameGenieR - constructor ####
-#' @title GeneNameGenieR constructor
-#'
-#' @description This function returns an instance of a GeneNameGenieR class.
-#'
-#' @return an object of class 'GeneNameGenieR'
-#' @examples
-#' \dontrun{
-#' gng = GeneNameGenieR() # Instance of class 'GeneNameGenieR'
-#' }
-#' @details
-#' This function initializes an object of the class GeneNameGenieR It is a
-#' wrapper for \code{new()}.
-#'
-#' @param url : Graph database URL, such as "http://localhost:7474/db/data/"
-#'
-#' @seealso \code{\link{new}}
-#' @author Stefan J. Haunsberger
-#' @export GeneNameGenieR
-setMethod(
-    f = "GeneNameGenieR",
-    signature(),
-    definition = function(url = NA_character_) {
-        return(new('GeneNameGenieR', url));
-    }
-)
+# ##### GeneNameGenieR - constructor ####
+# #' @title GeneNameGenieR constructor
+# #'
+# #' @description This function returns an instance of a GeneNameGenieR class.
+# #'
+# #' @return an object of class 'GeneNameGenieR'
+# #' @examples
+# #' \dontrun{
+# #' gng = GeneNameGenieR() # Instance of class 'GeneNameGenieR'
+# #' }
+# #' @details
+# #' This function initializes an object of the class GeneNameGenieR It is a
+# #' wrapper for \code{new()}.
+# #'
+# #' @param url : Graph database URL, such as "http://localhost:7474/db/data/"
+# #'
+# #' @seealso \code{\link{new}}
+# #' @author Stefan J. Haunsberger
+# #' @export GeneNameGenieR
+# setMethod(
+#     f = "GeneNameGenieR",
+#     signature(),
+#     definition = function(url = NA_character_) {
+#         return(new('GeneNameGenieR', url));
+#     }
+# )
+source("R/parameters.R")
+source("R/utils.R")
+# source("R/mirnameconversion.R")
 
 #' @title Convert input id to its corresponding official gene symbol
 #'
@@ -149,7 +150,7 @@ setMethod("getOfficialGeneSymbol",
              sourceDb = sourceDb,
              chromosomal = chromosomal);
 
-  postCheckInput(x);
+  .postCheckInput(x);
 
   return(x);
 
@@ -211,13 +212,13 @@ setMethod("convertFromTo",
                chromosomal = chromosomal);
 
     if (!longFormat) {
-        x = unstackDf(x);
+        x = .unstackDf(x);
         # remove artifially added columns
         colDiff = setdiff(tDb, targetDb);
         x = x[,!(names(x) %in% gng@toAddDbCols[colDiff])];
     }
     x = dplyr::distinct(x);
-    postCheckInput(x);
+    .postCheckInput(x);
 
     return(x);
 
@@ -316,16 +317,16 @@ setMethod("query",
                        chromosomal = chromosomal);
 
     #
-    x = parseGngList(res);
+    x = .parseGngList(res);
 
     if (!longFormat) {
-        x = unstackDf(x);
+        x = .unstackDf(x);
         # remove artifially added columns
         colDiff = setdiff(tDb, targetDb);
         x = x[,!(names(x) %in% gng@toAddDbCols[colDiff])];
     }
     x = dplyr::distinct(x);
-    postCheckInput(x);
+    .postCheckInput(x);
 
     return(x);
 })

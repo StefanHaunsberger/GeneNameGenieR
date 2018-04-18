@@ -1,7 +1,7 @@
 
 
 
-geneCols = list(
+.geneCols = list(
   aliases = "GeneSymbolAlias",
   symbol = "OfficialGeneSymbol",
   region = "GeneRegion",
@@ -13,7 +13,7 @@ geneCols = list(
   name = "GeneName"
 )
 
-transcriptCols = list(
+.transcriptCols = list(
   region = "TranscriptRegion",
   regionStart = "TranscriptStart",
   regionEnd = "TranscriptEnd",
@@ -21,13 +21,13 @@ transcriptCols = list(
   version = "EnsemblTranscriptVersion",
   biotype = "EnsemblTranscriptBiotype"
 );
-proteinCols = list(
+.proteinCols = list(
   id = "EnsemblProteinId",
   version = "EnsemblProteinVersion"
 );
 
-elTypeListFun = function(type, n) {call(as.character(type), n)};
-elTypeList = list(
+.elTypeListFun = function(type, n) {call(as.character(type), n)};
+.elTypeList = list(
   aliases = "character",
   symbol = "character",
   region = "character",
@@ -39,7 +39,7 @@ elTypeList = list(
   name = "character"
 );
 
-unstackDf = function(x, keyCols = c()) {
+.unstackDf = function(x, keyCols = c()) {
 
     if (length(keyCols) == 0) {
         keyColsBool = !(names(x) %in% c("TargetDb", "TargetId"));
@@ -57,7 +57,7 @@ unstackDf = function(x, keyCols = c()) {
 
     xL = list()
     for (idx in 1:length(colElTypes)) {
-        xL[[colNames[idx]]] = eval(elTypeListFun(colElTypes[idx], nRows))
+        xL[[colNames[idx]]] = eval(.elTypeListFun(colElTypes[idx], nRows))
     }
     xDf = as.data.frame(xL, stringsAsFactors = FALSE);
     xDf[,] = NA;
@@ -90,7 +90,7 @@ unstackDf = function(x, keyCols = c()) {
 }
 
 
-parseGngList = function(gng) {
+.parseGngList = function(gng) {
 
   #########################
   # Count number of rows and create columns
@@ -110,26 +110,26 @@ parseGngList = function(gng) {
   #     }
   # })
   for (name in names(gng[[1]]$value$gene)) {
-    if (name %in% names(elTypeList)) {
-      colNames = c(colNames, geneCols[[name]]);
-      colNamesUnstack = c(colNamesUnstack, geneCols[[name]]);
-      colElTypes = c(colElTypes, elTypeList[[name]]);
+    if (name %in% names(.elTypeList)) {
+      colNames = c(colNames, .geneCols[[name]]);
+      colNamesUnstack = c(colNamesUnstack, .geneCols[[name]]);
+      colElTypes = c(colElTypes, .elTypeList[[name]]);
     }
   }
   # Transcript
   for (name in names(gng[[1]]$value$gene$transcript[[1]])) {
-    if (name %in% names(elTypeList)) {
-      colNames = c(colNames, transcriptCols[[name]]);
-      colNamesUnstack = c(colNamesUnstack, transcriptCols[[name]]);
-      colElTypes = c(colElTypes, elTypeList[[name]]);
+    if (name %in% names(.elTypeList)) {
+      colNames = c(colNames, .transcriptCols[[name]]);
+      colNamesUnstack = c(colNamesUnstack, .transcriptCols[[name]]);
+      colElTypes = c(colElTypes, .elTypeList[[name]]);
     }
   }
   # Peptide
   for (name in names(gng[[1]]$value$gene$transcript[[1]]$peptide)) {
-    if (name %in% names(elTypeList)) {
-      colNames = c(colNames, proteinCols[[name]]);
-      colNamesUnstack = c(colNamesUnstack, proteinCols[[name]]);
-      colElTypes = c(colElTypes, elTypeList[[name]]);
+    if (name %in% names(.elTypeList)) {
+      colNames = c(colNames, .proteinCols[[name]]);
+      colNamesUnstack = c(colNamesUnstack, .proteinCols[[name]]);
+      colElTypes = c(colElTypes, .elTypeList[[name]]);
     }
   }
 
@@ -151,7 +151,7 @@ parseGngList = function(gng) {
   # Initialise list which later is converted to dataframe
   xL = list()
   for (idx in 1:length(colElTypes)) {
-    xL[[colNames[idx]]] = eval(elTypeListFun(colElTypes[idx], nRows))
+    xL[[colNames[idx]]] = eval(.elTypeListFun(colElTypes[idx], nRows))
   }
 
   geneColsNames = names(geneCols);
@@ -234,7 +234,7 @@ parseGngList = function(gng) {
 
 }
 
-postCheckInput = function(x) {
+.postCheckInput = function(x) {
     # Find all input values that resolve to multiple input sources
     # e.g. '596' is an EntrezGene ID as well as a WikiGene ID
     x2 = x %>%
@@ -251,7 +251,7 @@ postCheckInput = function(x) {
 
 }
 
-postCheckMirnaTranslation = function(x, input) {
+.postCheckMirnaTranslation = function(x, input) {
     x2 = x %>%
         dplyr::select(InputId, MatureAccession) %>%
         unique() %>%
@@ -271,7 +271,7 @@ postCheckMirnaTranslation = function(x, input) {
     }
 }
 
-postCheckMirnaTranslation2 = function(x, input) {
+.postCheckMirnaTranslation2 = function(x, input) {
     x2 = x %>%
         dplyr::select(InputId, Accession) %>%
         unique() %>%
