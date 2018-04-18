@@ -188,8 +188,6 @@ setMethod("convertMatureMirnasToVersions",
           signature(gng = "GeneNameGenieR"),
           function(gng, queryId, targetVersion, species, sequence) {
 
-              # gng = GeneNameGenieR();
-
               if (anyNA(targetVersion)) {
                   targetVersion = 0.0;
               }

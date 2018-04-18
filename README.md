@@ -21,6 +21,7 @@ The _GeneNameGenieR_ R package has been developed to provide functions for molec
 The binary package version can be downloaded from the following link: 
 
 [GeneNameGenieR_0.1.0.tar.gz](https://drive.google.com/open?id=1sKT48UO5nawsF69idtxurX1IvjWtD1XO)
+ 
 [GeneNameGenieR_0.1.0.tar.gz](https://drive.google.com/open?id=1ePeUO3iDES1tJgCK097JhdEyEJytWHgn)
 
 Alternatively one can install it using the following R command from the [devtools](https://github.com/r-lib/devtools) package:
@@ -87,7 +88,7 @@ identifiers: 'AMPK', 'Bcl-2', '596' and 'NM_000657'. We can use the `getOfficial
 function to retrieve the official gene symbol for each input identifier respectively.
 ```r
 ids = c('P10415', 'AMPK', 'ENSP00000381185', 'ENST00000589955', 'A0A024R2B3', '596');
-getOfficialGeneSymbol(GeneNameGenieR(), ids);
+getOfficialGeneSymbol(gng, ids);
 ```
 The output is a data.frame object. Thereby, if warnings appear on the console, affected rows are printed at the top of the results. 
 The actual result is the dataframe containing the three columns `InputId`, `InputSourceDb` and `OfficialGeneSymbol`.
@@ -122,7 +123,7 @@ as input source database parameter.
 
 ```r
 ids = c('P10415', 'AMPK', 'ENSP00000381185', 'ENST00000589955', 'A0A024R2B3', '596');
-getOfficialGeneSymbol(GeneNameGenieR(), ids, sourceDb = 'Uniprot_gn');
+getOfficialGeneSymbol(gng, ids, sourceDb = 'Uniprot_gn');
 ```
 Outputs:
 
@@ -143,7 +144,7 @@ target database. In the following example we are want to get all identifiers fro
 `"Uniprot/SWISSPROT"`, `"Uniprot/SPTREMBL"`, `"EntrezGene"` for the `"BCL2"` and `"AMPK"`.
 
 ```r
-convertFromTo(GeneNameGenieR(), c("BCL2", "AMPK"), c("Uniprot/SWISSPROT", "Uniprot/SPTREMBL", "EntrezGene"));
+convertFromTo(gng, c("BCL2", "AMPK"), c("Uniprot/SWISSPROT", "Uniprot/SPTREMBL", "EntrezGene"));
 ```
 Outputs:
 
@@ -171,7 +172,7 @@ gene region start and end, as provided by the `params` attribute.
 ```r
 ids = c('AMPK', 'Bcl-2', '596', 'NM_000657');
 x = query(
-    GeneNameGenieR(), 
+    gng, 
     ids, 
     targetDb = c('EntrezGene', 'ArrayExpress', 'RefSeq_mRNA'), 
     params = c('ensg:region', 'ensg:regionStart', 'ensg:regionEnd'));
@@ -246,13 +247,13 @@ whereas miRNA-Y does not just because one has a value in the database and the ot
 *Some more examples:*
 
 ```r
-> convertToCurrentMirbaseVersion(GeneNameGenie(), 'hsa-mir-29a', metadata = c('sequence', 'type', 'previousIds'));
+> convertToCurrentMirbaseVersion(gng, 'hsa-mir-29a', metadata = c('sequence', 'type', 'previousIds'));
       InputId Accession CurrentMirna CurrentVersion                      Sequence      Type PreviousIds
 1 hsa-mir-29a MI0000087  hsa-mir-29a             22 AUGACUGAUUUCUU...GAAAUCGGUUAU antisense  hsa-mir-29
 ```
 
 ```r
-convertToCurrentMirbaseVersion(g, c('hsa-miR-29a', 'MI0000087'), metadata = c('nExperiments', 'evidenceType', 'reads'));
+convertToCurrentMirbaseVersion(gng, c('hsa-miR-29a', 'MI0000087'), metadata = c('nExperiments', 'evidenceType', 'reads'));
       InputId    Accession   CurrentMirna CurrentVersion nExperiments EvidenceType   Reads
 1   MI0000087    MI0000087    hsa-mir-29a             22           77         <NA> 2055333
 2 hsa-miR-29a MIMAT0000086 hsa-miR-29a-3p             22           77 experimental 2045292
@@ -267,7 +268,7 @@ If no target versions are provided, the name from the most recent supported miRB
 release version is returned.
 
 ```r
-> convertMatureMirnasToVersions(GeneNameGenieR(), 'hsa-miR-29a');
+> convertMatureMirnasToVersions(gng, 'hsa-miR-29a');
          InputId MatureAccession miRBaseVersion    TargetMirna
    1 hsa-miR-29a    MIMAT0000086             22 hsa-miR-29a-3p
 ```
@@ -276,7 +277,7 @@ The following code returns the names for miRBase version 17, 21 and 22 for the
 mature miRNA `hsa-miR-29a`.
 
 ```r
-> convertMatureMirnasToVersions(GeneNameGenieR(), 'hsa-miR-29a', c(17, 21, 22))
+> convertMatureMirnasToVersions(gng, 'hsa-miR-29a', c(17, 21, 22))
         InputId MatureAccession miRBaseVersion    TargetMirna
   1 hsa-miR-29a    MIMAT0000086             17    hsa-miR-29a
   2 hsa-miR-29a    MIMAT0000086             21 hsa-miR-29a-3p
@@ -307,7 +308,7 @@ getValidDatabases(GeneNameGenieR());
 
 Using the `head` function we can show only the first couple of entries:
 ```r
-head(getValidDatabases(GeneNameGenieR()));
+head(getValidDatabases(gng));
                    DatabaseDisplayName                     DatabaseId
 1                                 CCDS                           CCDS
 2                               ChEMBL                         ChEMBL
@@ -325,7 +326,7 @@ an entity can be either `ensg`, `enst` or `ensp` for Ensembl gene, transcript or
 the `value` depicts the type of parameter, such as region for chromosome and or biotype.
 
 ```r
-getValidGngAttributes(GeneNameGenieR());
+getValidGngAttributes(gng);
                Parameter
 1            ensg:region
 2       ensg:regionStart
@@ -352,7 +353,7 @@ The `getValidMirnaMetadataValues` function returns a list of supported miRNA met
 Some of the parameters apply only to mature miRNAs whereas others only return values for precursor miRNAs.
 
 ```r
-getValidMirnaMetadataValues(GeneNameGenieR())
+getValidMirnaMetadataValues(gng)
              Parameter
 1           confidence
 2                 type
@@ -373,7 +374,7 @@ getValidMirnaMetadataValues(GeneNameGenieR())
 ### `getCurrentMirbaseVersion`: Get information on the latest miRBase release version supported by the package
 
 ```r
-getCurrentMirbaseVersion(GeneNameGenieR())
+getCurrentMirbaseVersion(gng)
 [1] "miRBase Release 22, March 12, 2018"
 ```
 

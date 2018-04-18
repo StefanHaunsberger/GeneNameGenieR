@@ -241,8 +241,8 @@ postCheckInput = function(x) {
         dplyr::select(InputId, InputSourceDb) %>%
         unique() %>%
         dplyr::group_by(InputId) %>%
-        dplyr::summarise(n = n()) %>%
-        dplyr::filter(n > 1);
+        dplyr::summarise(nEl = n()) %>%
+        dplyr::filter(nEl > 1);
 
     if (nrow(x2) != 0) {
         warning("Input identifier(s) match to more than one input source database");
@@ -256,8 +256,8 @@ postCheckMirnaTranslation = function(x, input) {
         dplyr::select(InputId, MatureAccession) %>%
         unique() %>%
         dplyr::group_by(InputId) %>%
-        dplyr::summarise(n = n()) %>%
-        dplyr::filter(n > 1);
+        dplyr::summarise(nEl = n()) %>%
+        dplyr::filter(nEl > 1);
 
     if (nrow(x2) != 0) {
         warning("Input identifier(s) match to more than one MIMAT accession!");
@@ -276,8 +276,8 @@ postCheckMirnaTranslation2 = function(x, input) {
         dplyr::select(InputId, Accession) %>%
         unique() %>%
         dplyr::group_by(InputId) %>%
-        dplyr::summarise(n = n()) %>%
-        dplyr::filter(n > 1);
+        dplyr::summarise(nEl = n()) %>%
+        dplyr::filter(nEl > 1);
 
     if (nrow(x2) != 0) {
         warning("Some input identifiers match to more than one MIMAT accession!");

@@ -1,63 +1,108 @@
-library(RNeo4j)
-library(dplyr)
-library(magrittr)
-
-source("R/parameters.R")
-
 #' @title GeneNameGenieR: Lightning fast graph based gene name converter
 #' @author Stefan J. Haunsberger
 #' @name GeneNameGenieR
 #' @description
 #'
-#'
-#' For bug reports, please
-#' \href{https://github.com/StefanHaunsberger/GeneNameGenieR/issues}{create a new GitHub issue}.
+#' @docType package
+
+library(RNeo4j)
+library(dplyr)
+library(magrittr)
+
+source("R/parameters.R")
+# source("R/utils.R")
+# source("R/mirnameconverter.R")
 
 DEFAULT_URL = "http://localhost:7474/db/data/";
 URL = DEFAULT_URL;
 setOldClass("graph")
 
+#' @title Instantiate from MiRNANameConverter class
+#'
+#' @description This function returns back an instance of a
+#' \emph{MiRNANAmeConverter} object.
+#'
+#' @slot url Database connection
+#' @slot graph Valid/Supported miRBase versions
+#' @slot toAddDbCols Number of different organisms supported
+#' @author Stefan J. Haunsberger
+#'
+#' For bug reports, please
+#' \href{https://github.com/StefanHaunsberger/GeneNameGenieR/issues}{create a new GitHub issue}.
 GeneNameGenieR = setClass("GeneNameGenieR",
     slots = list(
         url = "character",
         verbose = "logical",
-        debug = "logical",
         graph = "graph",
         toAddDbCols = "character"
     ),
     prototype = list(
         url = DEFAULT_URL,
-        verbose = TRUE,
-        debug = FALSE,
+        verbose = FALSE,
         graph = RNeo4j::startGraph(URL),
         toAddDbCols = c(ArrayExpress = "EnsemblGeneId",
                         Ens_Hs_transcript = "EnsemblTranscriptId",
                         Ens_Hs_translation = "EnsemblProteinId")
     )
 );
-#' @param url : Graph database URL, such as "http://localhost:7474/db/data/"
-#' @export
-GeneNameGenieR = function(url = NA_character_) {
-    if (is.na(url)) {
-        url = DEFAULT_URL;
-    }
-    g = new("GeneNameGenieR", url = url);
-    g@graph = RNeo4j::startGraph(url);
-    return(g);
-}
 
-# validGeneNameGenieObject = function(object) {
-#     errors = character(0);
-#
-#     if (length(errors) > 0) {
-#         errors
-#     } else {
-#         TRUE
-#     # }
-#     TRUE
+# #' @param url : Graph database URL, such as "http://localhost:7474/db/data/"
+# #' @export
+# GeneNameGenieR = function(url = NA_character_) {
+#     if (is.na(url)) {
+#         url = DEFAULT_URL;
+#     }
+#     g = new("GeneNameGenieR", url = url);
+#     g@graph = RNeo4j::startGraph(url);
+#     return(g);
 # }
 
-# setValidity("GeneNameGenieR", validGeneNameGenieObject)
+##### initialization ####
+# Initialization function (constructor)
+setMethod(
+    f = "initialize",
+    signature("GeneNameGenieR"),
+    definition = function(.Object) {
+
+        args = as.list(match.call());
+        url = "";
+        if (is.na(args["url"])) {
+            url = DEFAULT_URL;
+        } else {
+            url = args["url"];
+        }
+        .Object@graph = RNeo4j::startGraph(url);
+
+        return(.Object);
+    }
+)
+
+##### GeneNameGenieR - constructor ####
+#' @title GeneNameGenieR constructor
+#'
+#' @description This function returns an instance of a GeneNameGenieR class.
+#'
+#' @return an object of class 'GeneNameGenieR'
+#' @examples
+#' \dontrun{
+#' gng = GeneNameGenieR() # Instance of class 'GeneNameGenieR'
+#' }
+#' @details
+#' This function initializes an object of the class GeneNameGenieR It is a
+#' wrapper for \code{new()}.
+#'
+#' @param url : Graph database URL, such as "http://localhost:7474/db/data/"
+#'
+#' @seealso \code{\link{new}}
+#' @author Stefan J. Haunsberger
+#' @export GeneNameGenieR
+setMethod(
+    f = "GeneNameGenieR",
+    signature(),
+    definition = function(url = NA_character_) {
+        return(new('GeneNameGenieR', url));
+    }
+)
 
 #' @title Convert input id to its corresponding official gene symbol
 #'
@@ -89,8 +134,6 @@ setGeneric(
 setMethod("getOfficialGeneSymbol",
           signature(gng = "GeneNameGenieR"),
   function(gng, queryId, sourceDb, chromosomal) {
-
-  gng = GeneNameGenieR();
 
   q = paste0("CALL rcsi.convert.table.getOfficialGeneSymbol(",
       ifelse(length(queryId) == 1, "[{ids}], ", "{ids}, "),
@@ -143,8 +186,6 @@ setGeneric(
 setMethod("convertFromTo",
    signature(gng = "GeneNameGenieR"),
     function(gng, queryId, targetDb, sourceDb, longFormat, chromosomal) {
-
-    gng = GeneNameGenieR();
 
     tDb = targetDb;
     if (!longFormat) {
