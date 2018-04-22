@@ -39,6 +39,80 @@
   name = "character"
 );
 
+.processParameter = function(parameterName, parameterValue) {
+    return(paste0("\"", parameterName, "\" : ", ifelse(length(parameterValue) == 1, paste0("\"", parameterValue, "\""), paste0("[\"", paste0(parameterValue, collapse = "\", \""), "\"]"))));
+           # return(paste0("\"", parameterName, "\" : \"", ifelse(length(parameterValue) == 1, parameterValue, paste0("[\"", paste0(parameterValue, collapse = "\", \""), "\"]"))));
+}
+
+.postNeo4jRequest = function(gng, query, ...) {
+
+    args = as.list(match.call());
+
+    x = data.frame();
+
+    if (!is.null(args$query)) {
+        dots = list(...);
+
+        paramBody = "";
+        if (length(dots) > 0) {
+            paramNames = names(dots);
+            paramBody = ", \n\"params\" : {";
+            paramBody = paste0(paramBody, .processParameter(paramNames[1], dots[[1]]));
+            # paramBody = paste0("\"", paramNames[1], "\" : \"", ifelse(length(xx[[1]]) == 1, xx[[1]], paste0("[\"", paste0(xx[[1]], collapse = "\", \""), "\"]")))
+            if (length(paramNames) > 1) {
+                for (i in 2:(length(paramNames))) {
+                    paramBody = paste0(paramBody, ", \n", .processParameter(paramNames[i], dots[[i]]));
+                }
+            }
+            paramBody = paste0(paramBody, "}");
+        }
+
+        body = paste0('{ \"query\": \"', query, "\"", paramBody, "\n}");
+
+        # body = paste0('{ \"query\": \"', paste0("CALL rcsi.convert.table.getOfficialGeneSymbol({ids}) ",
+        #                         "YIELD value ",
+        #                         "RETURN ",
+        #                         "   value.InputId AS InputId, ",
+        #                         "   value.InputSourceDb AS InputSourceDb, ",
+        #                         "   value.OfficialGeneSymbol AS OfficialGeneSymbol"),
+        #               ', \"params\": {')
+
+        # req = httr::POST(paste0(gng@url, "cypher", sep = ""),
+        #                  body = paste0("CALL rcsi.convert.table.getOfficialGeneSymbol({ids}) ",
+        #                         "YIELD value ",
+        #                         "RETURN ",
+        #                         "   value.InputId AS InputId, ",
+        #                         "   value.InputSourceDb AS InputSourceDb, ",
+        #                         "   value.OfficialGeneSymbol AS OfficialGeneSymbol"))
+
+        req = httr::POST(paste0(gng@url, "cypher", sep = ""),
+                         body = body);
+
+        if (req$status_code != 200) {
+            stop("Unexpected status code returned by requst:\n",
+                 paste(capture.output(print(req)), collapse="\n"))
+        }
+
+        stop_for_status(req);
+        json = content(req, "text");
+
+        if (!validate(json)) {
+            stop("Malformatted JSON object was returned!");
+        }
+
+        # parse JSON object
+        obj = jsonlite::fromJSON(json);
+
+        x = as.data.frame(x = obj$data, stringsAsFactors = FALSE);
+        colnames(x) = obj$columns;
+    } else {
+        print("no query provided");
+    }
+
+    return(x);
+
+}
+
 .unstackDf = function(x, keyCols = c()) {
 
     if (length(keyCols) == 0) {
@@ -88,7 +162,6 @@
     return(xDf);
 
 }
-
 
 .parseGngList = function(gng) {
 
