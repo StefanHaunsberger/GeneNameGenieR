@@ -211,7 +211,8 @@ setMethod("convertFromTo",
                "value.TargetDb AS TargetDb, ",
                "value.TargetId AS TargetId;");
 
-    x = RNeo4j::cypher(gng@graph, q,
+    # x = RNeo4j::cypher(gng@graph, q,
+    x = .postNeo4jRequest(gng, q,
                ids = queryId,
                dbs = tDb,
                sourceDb = sourceDb,
