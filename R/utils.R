@@ -93,8 +93,8 @@
                  paste(capture.output(print(req)), collapse="\n"))
         }
 
-        stop_for_status(req);
-        json = content(req, "text");
+        httr::stop_for_status(req);
+        json = httr::content(req, "text");
 
         if (!validate(json)) {
             stop("Malformatted JSON object was returned!");
