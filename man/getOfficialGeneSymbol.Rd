@@ -4,7 +4,8 @@
 \alias{getOfficialGeneSymbol}
 \title{Convert input id to its corresponding official gene symbol}
 \usage{
-getOfficialGeneSymbol(gng, queryId, sourceDb = NA, chromosomal = TRUE)
+getOfficialGeneSymbol(gng, queryId, sourceDb = NA_character_,
+  chromosomal = TRUE)
 }
 \arguments{
 \item{gng}{A GeneNameGenieR object (e.g. \code{GeneNameGenieR()})}

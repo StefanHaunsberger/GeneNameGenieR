@@ -40,8 +40,47 @@
 );
 
 .processParameter = function(parameterName, parameterValue) {
-    return(paste0("\"", parameterName, "\" : ", ifelse(length(parameterValue) == 1, paste0("\"", parameterValue, "\""), paste0("[\"", paste0(parameterValue, collapse = "\", \""), "\"]"))));
+    if (length(parameterValue) == 1 && is.na(parameterValue)) {
+        parameterValue = "";
+    }
+    if (typeof(parameterValue) == "character") {
+        return(paste0("\"", parameterName, "\" : ",
+                    ifelse(length(parameterValue) == 1,
+                            paste0("\"", parameterValue, "\""),
+                            paste0("[\"", paste0(parameterValue, collapse = "\", \""), "\"]")
+                           )
+                    )
+               );
+    } else {
+        if (typeof(parameterValue) == "logical") {
+            parameterValue = tolower(parameterValue);
+        }
+        return(paste0("\"", parameterName, "\" : ",
+                      ifelse(length(parameterValue) == 1,
+                             parameterValue,
+                             paste0("[", paste0(parameterValue, collapse = ", "), "]")
+                            )
+                      )
+               );
+
+    }
            # return(paste0("\"", parameterName, "\" : \"", ifelse(length(parameterValue) == 1, parameterValue, paste0("[\"", paste0(parameterValue, collapse = "\", \""), "\"]"))));
+}
+
+.createParameterBody = function(params) {
+    paramBody = "";
+    if (length(params) > 0) {
+        paramNames = names(params);
+        paramBody = ", \n\"params\" : {";
+        paramBody = paste0(paramBody, .processParameter(paramNames[1], params[[1]]));
+        if (length(paramNames) > 1) {
+            for (i in 2:(length(paramNames))) {
+                paramBody = paste0(paramBody, ", \n", .processParameter(paramNames[i], params[[i]]));
+            }
+        }
+        paramBody = paste0(paramBody, "}");
+    }
+    return(paramBody);
 }
 
 .postNeo4jRequest = function(gng, query, ...) {
@@ -53,37 +92,15 @@
     if (!is.null(args$query)) {
         dots = list(...);
 
-        paramBody = "";
-        if (length(dots) > 0) {
-            paramNames = names(dots);
-            paramBody = ", \n\"params\" : {";
-            paramBody = paste0(paramBody, .processParameter(paramNames[1], dots[[1]]));
-            # paramBody = paste0("\"", paramNames[1], "\" : \"", ifelse(length(xx[[1]]) == 1, xx[[1]], paste0("[\"", paste0(xx[[1]], collapse = "\", \""), "\"]")))
-            if (length(paramNames) > 1) {
-                for (i in 2:(length(paramNames))) {
-                    paramBody = paste0(paramBody, ", \n", .processParameter(paramNames[i], dots[[i]]));
-                }
-            }
-            paramBody = paste0(paramBody, "}");
-        }
+        paramBody = .createParameterBody(dots);
+
+        print(paramBody);
+
+        print("=============")
 
         body = paste0('{ \"query\": \"', query, "\"", paramBody, "\n}");
 
-        # body = paste0('{ \"query\": \"', paste0("CALL rcsi.convert.table.getOfficialGeneSymbol({ids}) ",
-        #                         "YIELD value ",
-        #                         "RETURN ",
-        #                         "   value.InputId AS InputId, ",
-        #                         "   value.InputSourceDb AS InputSourceDb, ",
-        #                         "   value.OfficialGeneSymbol AS OfficialGeneSymbol"),
-        #               ', \"params\": {')
-
-        # req = httr::POST(paste0(gng@url, "cypher", sep = ""),
-        #                  body = paste0("CALL rcsi.convert.table.getOfficialGeneSymbol({ids}) ",
-        #                         "YIELD value ",
-        #                         "RETURN ",
-        #                         "   value.InputId AS InputId, ",
-        #                         "   value.InputSourceDb AS InputSourceDb, ",
-        #                         "   value.OfficialGeneSymbol AS OfficialGeneSymbol"))
+        print(body);
 
         req = httr::POST(paste0(gng@url, "cypher", sep = ""),
                          body = body);
@@ -318,7 +335,7 @@
         dplyr::filter(nEl > 1);
 
     if (nrow(x2) != 0) {
-        warning("Input identifier(s) match to more than one input source database");
+        warning("Some input identifier(s) match to more than one input source database");
         print(x2);
     }
 

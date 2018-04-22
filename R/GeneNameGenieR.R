@@ -127,7 +127,7 @@ source("R/utils.R")
 setGeneric(
     "getOfficialGeneSymbol",
     signature = c("gng"),
-    function(gng, queryId, sourceDb = NA, chromosomal = TRUE) {
+    function(gng, queryId, sourceDb = NA_character_, chromosomal = TRUE) {
         standardGeneric("getOfficialGeneSymbol")
     })
 
@@ -145,10 +145,16 @@ setMethod("getOfficialGeneSymbol",
       "   value.InputSourceDb AS InputSourceDb, ",
       "   value.OfficialGeneSymbol AS OfficialGeneSymbol");
 
-  x = RNeo4j::cypher(gng@graph, q,
-             ids = queryId,
-             sourceDb = sourceDb,
-             chromosomal = chromosomal);
+
+  x = .postNeo4jRequest(gng, q,
+                     ids = queryId,
+                     sourceDb = sourceDb,
+                     chromosomal = chromosomal);
+
+  # x = RNeo4j::cypher(gng@graph, q,
+  #            ids = queryId,
+  #            sourceDb = sourceDb,
+  #            chromosomal = chromosomal);
 
   .postCheckInput(x);
 
