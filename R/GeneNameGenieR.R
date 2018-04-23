@@ -7,6 +7,8 @@
 
 library(dplyr)
 library(magrittr)
+library(jsonlite)
+library(httr)
 
 DEFAULT_URL = "http://localhost:7474/db/data/";
 URL = DEFAULT_URL;
@@ -122,6 +124,8 @@ source("R/utils.R")
 #' identifiers that are associated with this location will be found.
 #'
 #' @importFrom magrittr %>%
+#' @import httr
+#' @importFrom jsonlite fromJSON
 #'
 #' @export
 setGeneric(

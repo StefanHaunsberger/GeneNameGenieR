@@ -1,7 +1,7 @@
 Package: GeneNameGenieR
 Type: Package
 Title: Graph DB powered molecular identifier converter: Convert any molecular identifier to any target identifier
-Version: 0.1.8
+Version: 0.1.9
 Authors@R: person("Stefan", "Haunsberger", "J.", email =
         "stefan.haunsberger@gmail.com", role = c("aut", "cre"))
 Maintainer: Stefan J. Haunsberger <stefan.haunsberger@gmail.com>
@@ -13,7 +13,9 @@ Encoding: UTF-8
 LazyData: false
 Imports: 
     magrittr, 
-    dplyr
+    dplyr,
+    httr,
+    jsonlite
 Suggests: 
     knitr,
     devtools,
