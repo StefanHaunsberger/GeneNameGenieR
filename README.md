@@ -9,7 +9,6 @@ The _GeneNameGenieR_ R package has been developed to provide functions for molec
    - [How to translate molecular identifiers](#how-to-translate-molecular-identifiers)
        - [Get official gene symbol](#get-official-gene-symbol)
        - [Convert identifiers from and to different databases](#convert-identifiers-from-and-to-different-databases)
-       - [`query`: An extended converter function which also returns metadata](#an-extended-converter-function-which-also-returns-metadata)
    - [How to translate miRNAs](#how-to-translate-mirnas)
        - [Translate input Ids to current version and retrieve metadata](#translate-input-ids-to-current-version-and-retrieve-metadata)
        - [Translate mature miRNA names to different miRBase release versions](#translate-mature-mirna-names-to-different-mirbase-release-versions)
@@ -55,8 +54,6 @@ The main methods are:
 
 - `getOfficialGeneSymbol`: Convert input id to its corresponding official gene symbol,
 - `convertFromTo`: Convert molecular identifier to target identifiers,
-- `query`: Translate identifiers and receive attributes for Ensembl genes, transcripts and proteins (extended `convertFromTo`)
-- `getValidGngAttributes`: Show all accepted metadata parameters
 - `getValidDatabases`: List all supported databases
 - `convertToCurrentMirbaseVersion`: Get current miRNA name for mature input miRNAs
 - `convertMatureMirnasToVersions`: Translate mature miRNA names to different versions.
@@ -164,54 +161,6 @@ Outputs:
 6    AMPK    Gene Symbol Alias UniProtKB/Swiss-Prot     P54646
 7    AMPK    Gene Symbol Alias            NCBI gene       5563
 ```
-
-### `query`: An extended converter function which also returns metadata
-
-The `query` function is the most extensive function contained in _GeneNameGenieR_. Similar to 
-the `convertFromTo` function it also enables to translate to different databases but furthermore 
-allows for gene and transcript metadata retrieval, such as gene start and end. Valid paramters 
-can be listed using the `getValidGngAttributes` function and can then be passed on to the 
-`query` function in a vector (or single value). Following example receives identifiers from 
-three databases, `targetDb` parameter, and adds metadata information about the chromosome, 
-gene region start and end, as provided by the `params` attribute.
-
-```r
-ids = c('AMPK', 'Bcl-2', '596', 'NM_000657');
-x = query(
-    gng, 
-    ids, 
-    targetDb = c('EntrezGene', 'ArrayExpress', 'RefSeq_mRNA'), 
-    params = c('ensg:region', 'ensg:regionStart', 'ensg:regionEnd'));
-```
-Outputs:
-
-```r
-# A tibble: 1 x 2
-  InputId     n
-    <chr> <int>
-1     596     2
-# --------
-     InputId     InputSourceDb  TargetId    TargetDb  GeneEnd GeneStart   EnsemblGeneId GeneRegion
-1       AMPK Gene Symbol Alias      5563   NCBI gene 56715335  56645322 ENSG00000162409          1
-2       AMPK Gene Symbol Alias NM_006252 RefSeq mRNA 56715335  56645322 ENSG00000162409          1
-3      Bcl-2 Gene Symbol Alias       596   NCBI gene 63320128  63123346 ENSG00000171791         18
-4      Bcl-2 Gene Symbol Alias NM_000657 RefSeq mRNA 63320128  63123346 ENSG00000171791         18
-5      Bcl-2 Gene Symbol Alias NM_000633 RefSeq mRNA 63320128  63123346 ENSG00000171791         18
-6        596          WikiGene       596   NCBI gene 63320128  63123346 ENSG00000171791         18
-7        596          WikiGene NM_000657 RefSeq mRNA 63320128  63123346 ENSG00000171791         18
-8        596          WikiGene NM_000633 RefSeq mRNA 63320128  63123346 ENSG00000171791         18
-9  NM_000657       RefSeq mRNA       596   NCBI gene 63320128  63123346 ENSG00000171791         18
-10 NM_000657       RefSeq mRNA NM_000657 RefSeq mRNA 63320128  63123346 ENSG00000171791         18
-11       596         NCBI gene       596   NCBI gene 63320128  63123346 ENSG00000171791         18
-12       596         NCBI gene NM_000657 RefSeq mRNA 63320128  63123346 ENSG00000171791         18
-13       596         NCBI gene NM_000633 RefSeq mRNA 63320128  63123346 ENSG00000171791         18
-Warning message:
-In postCheckInput(x) :
-  Some input identifiers match to more than one input source database
-```
-
-The `query` function also provides the possibility to pass on a `longFormat` parameter, which is set 
-to `TRUE` by default. If set to false, each entry in the `TargetDb` column will become its own column.
 
 ## How to translate miRNAs
 
@@ -322,35 +271,6 @@ head(getValidDatabases(gng));
 4     Clone-based (Ensembl) transcript Clone_based_ensembl_transcript
 5 DataBase of Aberrant 3' Splice Sites                         DBASS3
 6 DataBase of Aberrant 5' Splice Sites                         DBASS5
-```
-
-### List valid parameter values for the `query` function
-
-The `getValidGngAttributes` function returns a list of supported parameter values for the `query` function. 
-Currently there are 17 supported values. The parameter values are provided in the format <entity>:<value>, where 
-an entity can be either `ensg`, `enst` or `ensp` for Ensembl gene, transcript or peptide respectively. 
-the `value` depicts the type of parameter, such as region for chromosome and or biotype.
-
-```r
-getValidGngAttributes(gng);
-               Parameter
-1            ensg:region
-2       ensg:regionStart
-3         ensg:regionEnd
-4            ensg:strand
-5              ensg:name
-6           ensg:biotype
-7           ensg:version
-8  ensg:matchedReference
-9            enst:region
-10      enst:regionStart
-11        enst:regionEnd
-12           enst:strand
-13          enst:biotype
-14          enst:version
-15          ensp:version
-16                symbol
-17               aliases
 ```
 
 ### `getValidMirnaMetadataValues`: List valid miRNA metadata parameter values
