@@ -96,7 +96,7 @@
 
         body = paste0('{ \"query\": \"', query, "\"", paramBody, "\n}");
 
-        req = httr::POST(paste0(gng@url, "cypher", sep = ""),
+        req = httr::POST(paste0(gng@url, gng@cypherEndpoint, sep = ""),
                          body = body);
 
         if (req$status_code != 200) {

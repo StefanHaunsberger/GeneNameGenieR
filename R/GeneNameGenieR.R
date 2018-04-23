@@ -5,7 +5,6 @@
 #'
 #' @docType package
 
-library(RNeo4j)
 library(dplyr)
 library(magrittr)
 
@@ -27,15 +26,15 @@ setOldClass("graph")
 #' \href{https://github.com/StefanHaunsberger/GeneNameGenieR/issues}{create a new GitHub issue}.
 GeneNameGenieR = setClass("GeneNameGenieR",
     slots = list(
-        url = "character",
+        baseUrl = "character",
+        cypherEndpoint = "character",
         verbose = "logical",
-        graph = "graph",
         toAddDbCols = "character"
     ),
     prototype = list(
         url = DEFAULT_URL,
+        cypherEndpoint = "cypher",
         verbose = FALSE,
-        graph = RNeo4j::startGraph(URL),
         toAddDbCols = c(ArrayExpress = "EnsemblGeneId",
                         Ens_Hs_transcript = "EnsemblTranscriptId",
                         Ens_Hs_translation = "EnsemblProteinId")
@@ -49,8 +48,9 @@ GeneNameGenieR = function(url = NA_character_) {
     if (is.na(url)) {
         url = DEFAULT_URL;
     }
+
     g = new("GeneNameGenieR", url = url);
-    g@graph = RNeo4j::startGraph(url);
+    g@url = url;
     return(g);
 }
 
