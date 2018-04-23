@@ -3,6 +3,10 @@
 #' @name GeneNameGenieR
 #' @description
 #'
+#' @importFrom magrittr %>%
+#' @import httr
+#' @importFrom jsonlite fromJSON validate
+#'
 #' @docType package
 
 library(dplyr)
@@ -123,9 +127,14 @@ source("R/utils.R")
 #' alternative human chromosomes, such as CHR_HSCHR5_6_CTG1. In the case where \preformatted{chromosomal} is \preformatted{FALSE}, not even input
 #' identifiers that are associated with this location will be found.
 #'
-#' @importFrom magrittr %>%
-#' @import httr
-#' @importFrom jsonlite fromJSON
+#' @examples
+#'
+#' \dontrun{
+#'   gng = GeneNameGenieR();
+#'   getOfficialGeneSymbol(gng, "Bcl-2")
+#'     InputId     InputSourceDb OfficialGeneSymbol
+#'   1   Bcl-2 Gene Symbol Alias               BCL2
+#' }
 #'
 #' @export
 setGeneric(
@@ -135,7 +144,7 @@ setGeneric(
         standardGeneric("getOfficialGeneSymbol")
     })
 
-#' @export
+# @export
 setMethod("getOfficialGeneSymbol",
           signature(gng = "GeneNameGenieR"),
   function(gng, queryId, sourceDb, chromosomal) {
@@ -179,6 +188,15 @@ setMethod("getOfficialGeneSymbol",
 #'
 #' @return A data.frame object with the columns InputId, InputSourceDb and columns containing TargetDb and TargetId values.
 #'
+#' @examples
+#' \dontrun{
+#'   gng = GeneNameGenieR();
+#'   convertFromTo(gng, c("BCL2", "AMPK"), "EntrezGene");
+#'   InputId        InputSourceDb  TargetDb TargetId
+#' 1    BCL2 Official Gene Symbol NCBI gene      596
+#' 2    AMPK    Gene Symbol Alias NCBI gene     5563
+#' }
+#'
 #' @export
 #' @seealso \code{\link{query}}
 setGeneric(
@@ -188,7 +206,7 @@ setGeneric(
       standardGeneric("convertFromTo")
 })
 
-#' @export
+# @export
 setMethod("convertFromTo",
    signature(gng = "GeneNameGenieR"),
     function(gng, queryId, targetDb, sourceDb, longFormat, chromosomal) {

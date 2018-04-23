@@ -31,6 +31,16 @@ A data.frame object with the columns InputId, InputSourceDb and columns containi
 Converts molecular input identifier to identifier from target database. Thereby, the source database of the
 input identifier does not have to be specified as the database detects the corresponding database automatically.
 }
+\examples{
+\dontrun{
+  gng = GeneNameGenieR();
+  convertFromTo(gng, c("BCL2", "AMPK"), "EntrezGene");
+  InputId        InputSourceDb  TargetDb TargetId
+1    BCL2 Official Gene Symbol NCBI gene      596
+2    AMPK    Gene Symbol Alias NCBI gene     5563
+}
+
+}
 \seealso{
 \code{\link{query}}
 }

@@ -27,3 +27,13 @@ Compute the official gene symbol for a single or multiple `queryId`(s).
 If `sourceDb` is missing, the database will automatically try to detect the queryId's
   source database. Per default `chromosomal` is set to `true`.
 }
+\examples{
+
+\dontrun{
+  gng = GeneNameGenieR();
+  getOfficialGeneSymbol(gng, "Bcl-2")
+    InputId     InputSourceDb OfficialGeneSymbol
+  1   Bcl-2 Gene Symbol Alias               BCL2
+}
+
+}

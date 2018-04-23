@@ -16,11 +16,12 @@
 #' @export
 #' @seealso \code{\link{query}} and \code{\link{convertFromTo}}
 setGeneric("getValidDatabases", function(gng) standardGeneric("getValidDatabases"))
-#' @export
+# @export
 setMethod("getValidDatabases",
           signature(gng = "GeneNameGenieR"),
           function(gng) {
-              x = RNeo4j::cypher(gng@graph, paste("CALL rcsi.params.getValidDatabases() YIELD value",
+
+              x = .postNeo4jRequest(gng, paste("CALL rcsi.params.getValidDatabases() YIELD value",
                                           "RETURN value.DatabaseDisplayName AS DatabaseDisplayName, value.DatabaseId AS DatabaseId",
                                           "ORDER BY DatabaseDisplayName"));
               return(x);
@@ -40,14 +41,14 @@ setMethod("getValidDatabases",
 #'   gng = GeneNameGenieR();
 #'   getValidGngAttributes(gng);
 #' }
-# @export
 #' @seealso \code{\link{query}}
+# @export
 setGeneric("getValidGngAttributes", function(gng) standardGeneric("getValidGngAttributes"))
 
 setMethod("getValidGngAttributes",
           signature(gng = "GeneNameGenieR"),
           function(gng) {
-              x = RNeo4j::cypher(gng@graph, "CALL rcsi.params.getValidAttributes() YIELD value RETURN value AS Parameter");
+              x = .postNeo4jRequest(gng, "CALL rcsi.params.getValidAttributes() YIELD value RETURN value AS Parameter");
               return(x);
           })
 
@@ -65,14 +66,14 @@ setMethod("getValidGngAttributes",
 #'   gng = GeneNameGenieR();
 #'   getValidMirnaMetadataValues(gng);
 #' }
-#' @export
 #' @seealso \code{\link{query}}
-setGeneric("getValidMirnaMetadataValues", function(gng) standardGeneric("getValidMirnaMetadataValues"))
 #' @export
+setGeneric("getValidMirnaMetadataValues", function(gng) standardGeneric("getValidMirnaMetadataValues"))
+# @export
 setMethod("getValidMirnaMetadataValues",
           signature(gng = "GeneNameGenieR"),
           function(gng) {
-              x = RNeo4j::cypher(gng@graph, "CALL rcsi.params.getValidMirnaMetadataValues() YIELD value RETURN value AS Parameter");
+              x = .postNeo4jRequest(gng, "CALL rcsi.params.getValidMirnaMetadataValues() YIELD value RETURN value AS Parameter");
               return(x);
           })
 
@@ -87,11 +88,11 @@ setMethod("getValidMirnaMetadataValues",
 #' }
 #' @export
 setGeneric("getCurrentMirbaseVersion", function(gng) standardGeneric("getCurrentMirbaseVersion"))
-#' @export
+# @export
 setMethod("getCurrentMirbaseVersion",
           signature(gng = "GeneNameGenieR"),
           function(gng) {
-              x = RNeo4j::cypher(gng@graph, "MATCH (db :MirnaDB {id: 'miRBase_mature_name'}) RETURN db.release AS release;")$release[1];
+              x = .postNeo4jRequest(gng, "MATCH (db :MirnaDB {id: 'miRBase_mature_name'}) RETURN db.release AS release;")$release[1];
               # x1 = strsplit(x, ",")[[1]][1];
               # m <- regexpr("\\d+\\.?\\d+", x1, perl=TRUE)
               # releaseVersion = regmatches(strsplit(x, ",")[[1]][1], m);
