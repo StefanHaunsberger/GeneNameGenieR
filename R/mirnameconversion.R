@@ -105,7 +105,6 @@ setMethod("convertToCurrentMirbaseVersion",
               }}), collapse = ", "));
       }
 
-      # x = RNeo4j::cypher(gng@graph, q,
       x = .postNeo4jRequest(gng, q,
                  queryIds = queryId,
                  species = species,
@@ -209,7 +208,6 @@ setMethod("convertMatureMirnasToVersions",
                   q = paste0(q, ", value.TargetSequence AS TargetSequence");
               }
 
-              # x = RNeo4j::cypher(gng@graph, q,
               x = .postNeo4jRequest(gng, q,
                          queryIds = queryId,
                          versions = targetVersion,

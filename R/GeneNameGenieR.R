@@ -151,11 +151,6 @@ setMethod("getOfficialGeneSymbol",
                      sourceDb = sourceDb,
                      chromosomal = chromosomal);
 
-  # x = RNeo4j::cypher(gng@graph, q,
-  #            ids = queryId,
-  #            sourceDb = sourceDb,
-  #            chromosomal = chromosomal);
-
   .postCheckInput(x);
 
   return(x);
@@ -211,7 +206,6 @@ setMethod("convertFromTo",
                "value.TargetDb AS TargetDb, ",
                "value.TargetId AS TargetId;");
 
-    # x = RNeo4j::cypher(gng@graph, q,
     x = .postNeo4jRequest(gng, q,
                ids = queryId,
                dbs = tDb,

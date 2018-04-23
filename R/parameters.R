@@ -40,7 +40,7 @@ setMethod("getValidDatabases",
 #'   gng = GeneNameGenieR();
 #'   getValidGngAttributes(gng);
 #' }
-#' @export
+# @export
 #' @seealso \code{\link{query}}
 setGeneric("getValidGngAttributes", function(gng) standardGeneric("getValidGngAttributes"))
 
