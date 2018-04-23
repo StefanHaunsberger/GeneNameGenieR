@@ -28,13 +28,6 @@ Alternatively one can install it using the following R command from the [devtool
 devtools::install_github("stefanhaunsberger/GeneNameGenieR")
 ```
 
-In the case where RNeo4j is not available for your R version try to install it with the following command:
-
-```r
-devtools::install_github("nicolewhite/RNeo4j")
-```
-
-
 # Introduction
 
 The _GeneNameGenieR_ package provides a programmatic interface to the GeneNameGenie

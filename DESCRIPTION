@@ -13,8 +13,7 @@ Encoding: UTF-8
 LazyData: false
 Imports: 
     magrittr, 
-    dplyr, 
-    RNeo4j
+    dplyr
 Suggests: 
     knitr,
     devtools,

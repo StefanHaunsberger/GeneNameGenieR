@@ -94,13 +94,7 @@
 
         paramBody = .createParameterBody(dots);
 
-        print(paramBody);
-
-        print("=============")
-
         body = paste0('{ \"query\": \"', query, "\"", paramBody, "\n}");
-
-        print(body);
 
         req = httr::POST(paste0(gng@url, "cypher", sep = ""),
                          body = body);
