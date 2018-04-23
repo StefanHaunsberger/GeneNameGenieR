@@ -49,8 +49,8 @@ GeneNameGenieR = function(url = NA_character_) {
         url = DEFAULT_URL;
     }
 
-    g = new("GeneNameGenieR", url = url);
-    g@baseUrl = url;
+    g = new("GeneNameGenieR", baseUrl = url);
+    # g@baseUrl = url;
     return(g);
 }
 
