@@ -32,7 +32,7 @@ GeneNameGenieR = setClass("GeneNameGenieR",
         toAddDbCols = "character"
     ),
     prototype = list(
-        url = DEFAULT_URL,
+        baseUrl = DEFAULT_URL,
         cypherEndpoint = "cypher",
         verbose = FALSE,
         toAddDbCols = c(ArrayExpress = "EnsemblGeneId",
@@ -50,7 +50,7 @@ GeneNameGenieR = function(url = NA_character_) {
     }
 
     g = new("GeneNameGenieR", url = url);
-    g@url = url;
+    g@baseUrl = url;
     return(g);
 }
 

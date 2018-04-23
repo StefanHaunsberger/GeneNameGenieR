@@ -81,7 +81,7 @@ setMethod("getValidMirnaMetadataValues",
 #'
 #' @param gng An instance of the \code{GeneNameGenieR} object (e.g. \preformatted{gng = GeneNameGenieR()})
 #'
-#' @example
+#' @examples
 #' \dontrun{
 #'   getCurrentMirbaseVersion(GeneNameGenieR());
 #' }
