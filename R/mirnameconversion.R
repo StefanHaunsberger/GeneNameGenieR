@@ -56,7 +56,7 @@ Metadata_Map = c(confidence = "value.Conficence AS Confidence",
 #' }
 #' \dontrun{
 #'   gng = GeneNameGenieR();
-#'   convertToCurrentMirbaseVersion(g, 'hsa-mir-29a', metadata = c('sequence', 'type', 'previousIds'));
+#'   convertToCurrentMirbaseVersion(gng, 'hsa-mir-29a', metadata = c('sequence', 'type', 'previousIds'));
 #'       InputId Accession CurrentMirna CurrentVersion                                                         Sequence      Type PreviousIds
 #' 1 hsa-mir-29a MI0000087  hsa-mir-29a             22 AUGACUGAUUUCUUUUGGUGUUCAGAGUCAAUAUAAUUUUCUAGCACCAUCUGAAAUCGGUUAU antisense  hsa-mir-29
 #' }
