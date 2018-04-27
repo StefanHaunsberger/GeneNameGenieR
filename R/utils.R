@@ -96,6 +96,7 @@
 
         body = paste0('{ \"query\": \"', query, "\"", paramBody, "\n}");
 
+        # req = httr::POST("http://localhost:7474/db/data/transaction/commit",
         req = httr::POST(paste0(gng@baseUrl, gng@cypherEndpoint, sep = ""),
                          body = body);
 
@@ -107,7 +108,7 @@
         httr::stop_for_status(req);
         json = httr::content(req, "text");
 
-        if (!validate(json)) {
+        if (!jsonlite::validate(json)) {
             stop("Malformatted JSON object was returned!");
         }
 
