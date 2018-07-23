@@ -41,9 +41,9 @@ GeneNameGenieR = setClass("GeneNameGenieR",
         baseUrl = DEFAULT_URL,
         cypherEndpoint = "cypher",
         verbose = FALSE,
-        toAddDbCols = c(ArrayExpress = "EnsemblGeneId",
-                        Ens_Hs_transcript = "EnsemblTranscriptId",
-                        Ens_Hs_translation = "EnsemblProteinId")
+        toAddDbCols = c(ArrayExpress = "Ensembl.Human.Gene",
+                        Ens_Hs_transcript = "Ensembl.Human.Transcript",
+                        Ens_Hs_translation = "Ensembl.Human.Translation")
     )
 );
 # #' @exportClass GeneNameGenieR
@@ -240,8 +240,10 @@ setMethod("convertFromTo",
         colDiff = setdiff(tDb, targetDb);
         x = x[,!(names(x) %in% gng@toAddDbCols[colDiff])];
     }
-    x = dplyr::distinct(x);
-    .postCheckInput(x);
+    if (nrow(x) > 0) {
+        x = dplyr::distinct(x);
+        .postCheckInput(x);
+    }
 
     return(x);
 
