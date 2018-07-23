@@ -118,8 +118,9 @@
         x = as.data.frame(x = obj$data, stringsAsFactors = FALSE);
         if (nrow(x) == 0) {
             return(x)
+        } else {
+            colnames(x) = obj$columns;
         }
-        colnames(x) = obj$columns;
     } else {
         print("no query provided");
     }
