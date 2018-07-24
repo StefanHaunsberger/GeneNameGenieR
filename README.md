@@ -59,12 +59,11 @@ library(GeneNameGenieR)
 
 GeneNameGenieR depends on a GeneNameGenie Neo4j graph database instance. This can either 
 be locally or online. The default URL is set to `http://localhost:7474/db/data/`. 
-To use a different URL pass the URL as a string parameter to the GeneNameGenieR object 
-instantiation:
+
+If a different host address needs to be set, the `setNeo4jConnection` function can be used:
 
 ```r
-# Basic structur GeneNameGenieR(host = "<url>", port = <port>, path = "<path>")
-gng = GeneNameGenieR("localhost")
+# setNeo4jConnection(host = "<url>", port = <port>, path = "<path>")
 ```
 
 # Use Cases
@@ -80,7 +79,7 @@ identifiers: 'AMPK', 'Bcl-2', '596' and 'NM_000657'. We can use the `getOfficial
 function to retrieve the official gene symbol for each input identifier respectively.
 ```r
 ids = c('P10415', 'AMPK', 'ENSP00000381185', 'ENST00000589955', 'A0A024R2B3', '596');
-getOfficialGeneSymbol(gng, ids);
+getOfficialGeneSymbol(ids);
 ```
 The output is a data.frame object. Thereby, if warnings appear on the console, affected rows are printed at the top of the results. 
 The actual result is the dataframe containing the three columns `InputId`, `InputSourceDb` and `OfficialGeneSymbol`.
@@ -115,7 +114,7 @@ as input source database parameter.
 
 ```r
 ids = c('P10415', 'AMPK', 'ENSP00000381185', 'ENST00000589955', 'A0A024R2B3', '596');
-getOfficialGeneSymbol(gng, ids, sourceDb = 'Uniprot_gn');
+getOfficialGeneSymbol(ids, sourceDb = 'Uniprot_gn');
 ```
 Outputs:
 
@@ -136,7 +135,7 @@ target database. In the following example we are want to get all identifiers fro
 `"Uniprot/SWISSPROT"`, `"Uniprot/SPTREMBL"`, `"EntrezGene"` for the `"BCL2"` and `"AMPK"`.
 
 ```r
-convertFromTo(gng, c("BCL2", "AMPK"), c("Uniprot/SWISSPROT", "Uniprot/SPTREMBL", "EntrezGene"));
+convertFromTo(c("BCL2", "AMPK"), c("Uniprot/SWISSPROT", "Uniprot/SPTREMBL", "EntrezGene"));
 ```
 Outputs:
 
@@ -162,7 +161,7 @@ each input value respectively (where possible). The following example illustrate
 a simple use case where a single miRNA is converted to the current miRBase version.
 
 ```r
-> convertToCurrentMirbaseVersion(GeneNameGenieR(), 'hsa-miR-29a');
+> convertToCurrentMirbaseVersion('hsa-miR-29a');
 
       InputId    Accession   CurrentMirna CurrentVersion
 1 hsa-miR-29a MIMAT0000086 hsa-miR-29a-3p             22
@@ -178,7 +177,7 @@ The following example returns the current miRNA name and metadata for a the matu
 miRNA name `hsa-miR-29a` and the precursor miRNA name `hsa-mir-29a`.
 
 ```r
-> convertToCurrentMirbaseVersion(GeneNameGenie(), c('hsa-miR-29a', 'hsa-mir-29a'), metadata = c('nExperiments', 'strand', 'reads'));
+> convertToCurrentMirbaseVersion(c('hsa-miR-29a', 'hsa-mir-29a'), metadata = c('nExperiments', 'strand', 'reads'));
       InputId    Accession   CurrentMirna CurrentVersion nExperiments Strand   Reads
 1 hsa-miR-29a MIMAT0000086 hsa-miR-29a-3p             22           77   <NA> 2045292
 2 hsa-mir-29a    MI0000087    hsa-mir-29a             22           77      - 2055333
@@ -191,13 +190,13 @@ whereas miRNA-Y does not just because one has a value in the database and the ot
 *Some more examples:*
 
 ```r
-> convertToCurrentMirbaseVersion(gng, 'hsa-mir-29a', metadata = c('sequence', 'type', 'previousIds'));
+> convertToCurrentMirbaseVersion('hsa-mir-29a', metadata = c('sequence', 'type', 'previousIds'));
       InputId Accession CurrentMirna CurrentVersion                      Sequence      Type PreviousIds
 1 hsa-mir-29a MI0000087  hsa-mir-29a             22 AUGACUGAUUUCUU...GAAAUCGGUUAU antisense  hsa-mir-29
 ```
 
 ```r
-convertToCurrentMirbaseVersion(gng, c('hsa-miR-29a', 'MI0000087'), metadata = c('nExperiments', 'evidenceType', 'reads'));
+convertToCurrentMirbaseVersion(c('hsa-miR-29a', 'MI0000087'), metadata = c('nExperiments', 'evidenceType', 'reads'));
       InputId    Accession   CurrentMirna CurrentVersion nExperiments EvidenceType   Reads
 1   MI0000087    MI0000087    hsa-mir-29a             22           77         <NA> 2055333
 2 hsa-miR-29a MIMAT0000086 hsa-miR-29a-3p             22           77 experimental 2045292
@@ -212,7 +211,7 @@ If no target versions are provided, the name from the most recent supported miRB
 release version is returned.
 
 ```r
-> convertMatureMirnasToVersions(gng, 'hsa-miR-29a');
+> convertMatureMirnasToVersions('hsa-miR-29a');
          InputId MatureAccession miRBaseVersion    TargetMirna
    1 hsa-miR-29a    MIMAT0000086             22 hsa-miR-29a-3p
 ```
@@ -221,7 +220,7 @@ The following code returns the names for miRBase version 17, 21 and 22 for the
 mature miRNA `hsa-miR-29a`.
 
 ```r
-> convertMatureMirnasToVersions(gng, 'hsa-miR-29a', c(17, 21, 22))
+> convertMatureMirnasToVersions('hsa-miR-29a', c(17, 21, 22))
         InputId MatureAccession miRBaseVersion    TargetMirna
   1 hsa-miR-29a    MIMAT0000086             17    hsa-miR-29a
   2 hsa-miR-29a    MIMAT0000086             21 hsa-miR-29a-3p
@@ -232,7 +231,7 @@ In the case where also the sequence for a specific version is required we can
 pass the parameter `sequence = TRUE` to the function.
 
 ```r
-convertMatureMirnasToVersions(gng, 'hsa-miR-29a', c(17, 21, 22), sequence = TRUE)
+convertMatureMirnasToVersions('hsa-miR-29a', c(17, 21, 22), sequence = TRUE)
        InputId MatureAccession miRBaseVersion    TargetMirna         TargetSequence
  1 hsa-miR-29a    MIMAT0000086             17    hsa-miR-29a UAGCACCAUCUGAAAUCGGUUA
  2 hsa-miR-29a    MIMAT0000086             21 hsa-miR-29a-3p UAGCACCAUCUGAAAUCGGUUA
@@ -247,12 +246,12 @@ The `getValidDatabases` function returns a list of supported database values. Th
 contained in the `DatabaseId` column are valid as `targetDb` and `sourceDb` parameter values.
 
 ```r
-getValidDatabases(GeneNameGenieR());
+getValidDatabases();
 ```
 
 Using the `head` function we can show only the first couple of entries:
 ```r
-head(getValidDatabases(gng));
+head(getValidDatabases());
                    DatabaseDisplayName                     DatabaseId
 1                                 CCDS                           CCDS
 2                               ChEMBL                         ChEMBL
@@ -268,7 +267,7 @@ The `getValidMirnaMetadataValues` function returns a list of supported miRNA met
 Some of the parameters apply only to mature miRNAs whereas others only return values for precursor miRNAs.
 
 ```r
-getValidMirnaMetadataValues(gng)
+getValidMirnaMetadataValues()
              Parameter
 1           confidence
 2                 type
@@ -289,7 +288,7 @@ getValidMirnaMetadataValues(gng)
 ### `getCurrentMirbaseVersion`: Get information on the latest miRBase release version supported by the package
 
 ```r
-getCurrentMirbaseVersion(gng)
+getCurrentMirbaseVersion()
 [1] "miRBase Release 22, March 12, 2018"
 ```
 

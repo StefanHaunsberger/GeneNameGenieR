@@ -3,8 +3,6 @@ require(GeneNameGenieR);
 
 testthat::context("mirnameconversion");
 
-gng = GeneNameGenieR();
-
 testthat::test_that("convertToCurrentMirbaseVersion of 'hsa-miR-29a' and get some metadata", {
 
     inputIds = 'hsa-miR-29a';
@@ -17,7 +15,7 @@ testthat::test_that("convertToCurrentMirbaseVersion of 'hsa-miR-29a' and get som
         EvidenceType = "experimental",
         stringsAsFactors = FALSE);
 
-    testthat::expect_equal(convertToCurrentMirbaseVersion(gng, inputIds, metadata = c('nExperiments', 'evidenceType')), target);
+    testthat::expect_equal(convertToCurrentMirbaseVersion(inputIds, metadata = c('nExperiments', 'evidenceType')), target);
 })
 
 testthat::test_that("convertMatureMirnasToVersions(gng, 'hsa-miR-29a', c(17, 21, 22))", {
@@ -31,5 +29,5 @@ testthat::test_that("convertMatureMirnasToVersions(gng, 'hsa-miR-29a', c(17, 21,
         TargetMirna = c("hsa-miR-29a", "hsa-miR-29a-3p", "hsa-miR-29a-3p"),
         stringsAsFactors = FALSE);
 
-    testthat::expect_equal(convertMatureMirnasToVersions(gng, inputIds, c(17, 21, 22)), target);
+    testthat::expect_equal(convertMatureMirnasToVersions(inputIds, c(17, 21, 22)), target);
 })
