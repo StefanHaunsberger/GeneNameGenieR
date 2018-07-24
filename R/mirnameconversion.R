@@ -20,7 +20,6 @@ Metadata_Map = c(confidence = "value.Conficence AS Confidence",
 #' Thereby, one can pass in either MIMAT IDs or miRNAs or a mix of both. If desired,
 #' the `queryType` can be specified passing through either `"mature"` or `"precursor"`.
 #'
-#' @param gng A GeneNameGenieR object (e.g. \code{GeneNameGenieR()})
 #' @param queryId A string vector of miRNA identifiers which needs to be converted
 #' @param metadata A string vector with parameter values, such as `'sequence'` or `'type'`.
 #'
@@ -29,15 +28,13 @@ Metadata_Map = c(confidence = "value.Conficence AS Confidence",
 #' @examples
 #'
 #' \dontrun{
-#'   gng = GeneNameGenieR();
-#'   convertToCurrentMirbaseVersion(gng, 'hsa-miR-29a');
+#'   convertToCurrentMirbaseVersion('hsa-miR-29a');
 #'         InputId    Accession   CurrentMirna CurrentVersion
 #'   1 hsa-miR-29a MIMAT0000086 hsa-miR-29a-3p             22
 #' }
 #'\dontrun{
-#'   gng = GeneNameGenieR();
 #'   queryIds = c('MIMAT0000447', 'hsa-mir-134', 'hsa-miR-134', 'MI0000146', 'hsa-miR-29a')
-#'   convertToCurrentMirbaseVersion(gng, queryIds, 'hsa', 'sequence');
+#'   convertToCurrentMirbaseVersion(queryIds, 'hsa', 'sequence');
 #'        InputId    Accession   CurrentMirna CurrentVersion                                                                  Sequence
 #' 1 MIMAT0000447 MIMAT0000447 hsa-miR-134-5p             22                                                    UGUGACUGGUUGACCAGAGGGG
 #' 2  hsa-miR-134 MIMAT0000447 hsa-miR-134-5p             22                                                    UGUGACUGGUUGACCAGAGGGG
@@ -45,8 +42,7 @@ Metadata_Map = c(confidence = "value.Conficence AS Confidence",
 #' 4  hsa-mir-134    MI0000474    hsa-mir-134             22 CAGGGUGUGUGACUGGUUGACCAGAGGGGCAUGCACUGUGUUCACCCUGUGGGCCACCUAGUCACCAACCCUC
 #' }
 #' \dontrun{
-#'   gng = GeneNameGenieR();
-#'   convertToCurrentMirbaseVersion(gng, queryIds, metadata = 'sequence');
+#'   convertToCurrentMirbaseVersion(queryIds, metadata = 'sequence');
 #'        InputId    Accession   CurrentMirna CurrentVersion                                                                  Sequence
 #' 1    MI0000146    MI0000146    mmu-mir-99a             22         CAUAAACCCGUAGAUCCGAUCUUGUGGUGAAGUGGACCGCGCAAGCUCGUUUCUAUGGGUCUGUG
 #' 2 MIMAT0000447 MIMAT0000447 hsa-miR-134-5p             22                                                    UGUGACUGGUUGACCAGAGGGG
@@ -55,31 +51,20 @@ Metadata_Map = c(confidence = "value.Conficence AS Confidence",
 #' 5  hsa-mir-134    MI0000474    hsa-mir-134             22 CAGGGUGUGUGACUGGUUGACCAGAGGGGCAUGCACUGUGUUCACCCUGUGGGCCACCUAGUCACCAACCCUC
 #' }
 #' \dontrun{
-#'   gng = GeneNameGenieR();
-#'   convertToCurrentMirbaseVersion(gng, 'hsa-mir-29a', metadata = c('sequence', 'type', 'previousIds'));
+#'   convertToCurrentMirbaseVersion('hsa-mir-29a', metadata = c('sequence', 'type', 'previousIds'));
 #'       InputId Accession CurrentMirna CurrentVersion                                                         Sequence      Type PreviousIds
 #' 1 hsa-mir-29a MI0000087  hsa-mir-29a             22 AUGACUGAUUUCUUUUGGUGUUCAGAGUCAAUAUAAUUUUCUAGCACCAUCUGAAAUCGGUUAU antisense  hsa-mir-29
 #' }
 #'\dontrun{
-#'   gng = GeneNameGenieR();
 #'   queryIds = c('hsa-mir-134', 'hsa-mir-29a')
-#'   convertToCurrentMirbaseVersion(gng, queryIds, metadata = c('type', 'previousIds'));
+#'   convertToCurrentMirbaseVersion(queryIds, metadata = c('type', 'previousIds'));
 #'       InputId Accession CurrentMirna CurrentVersion      Type PreviousIds
 #' 1 hsa-mir-134 MI0000474  hsa-mir-134             22 antisense
 #' 2 hsa-mir-29a MI0000087  hsa-mir-29a             22 antisense  hsa-mir-29
 #' }
 #'
 #' @export
-setGeneric(
-    "convertToCurrentMirbaseVersion",
-    signature = c("gng"),
-    function(gng, queryId, species = "", metadata = NA_character_) {
-        standardGeneric("convertToCurrentMirbaseVersion")
-    })
-
-setMethod("convertToCurrentMirbaseVersion",
-          signature(gng = "GeneNameGenieR"),
-  function(gng, queryId, species, metadata) {
+convertToCurrentMirbaseVersion = function(queryId, species = "", metadata = NA_character_) {
 
       if (anyNA(metadata)) {
           metadata = "";
@@ -105,7 +90,7 @@ setMethod("convertToCurrentMirbaseVersion",
               }}), collapse = ", "));
       }
 
-      x = .postNeo4jRequest(gng, q,
+      x = .postNeo4jRequest(q,
                  queryIds = queryId,
                  species = species,
                  metadata = metadata);
@@ -115,7 +100,7 @@ setMethod("convertToCurrentMirbaseVersion",
 
       return(x);
 
-})
+}
 
 #' @title Translate mature miRNA names to different versions
 #'
@@ -123,7 +108,6 @@ setMethod("convertToCurrentMirbaseVersion",
 #' multiple `targetVersion`(s). Optionally the `species` can be provided and if
 #' `sequence` == TRUE the sequence for each version respecively returned.
 #'
-#' @param gng A GeneNameGenieR object (e.g. \code{GeneNameGenieR()})
 #' @param queryId A character vector of miRNA identifiers which needs to be converted
 #' @param targetVersion A numeric vector with the target miRBase version(s), such as `c(20, 21)` (default: 22).
 #' @param species A string containing the three letter species, such as `'hsa'` or `'mmu'`.
@@ -132,22 +116,19 @@ setMethod("convertToCurrentMirbaseVersion",
 #' @examples
 #'
 #' \dontrun{
-#'   gng = GeneNameGenieR();
-#'   convertMatureMirnasToVersions(gng, 'hsa-miR-29a');
+#'   convertMatureMirnasToVersions('hsa-miR-29a');
 #'         InputId MatureAccession miRBaseVersion    TargetMirna
 #'   1 hsa-miR-29a    MIMAT0000086             22 hsa-miR-29a-3p
 #' }
 #' \dontrun{
-#'   gng = GeneNameGenieR();
-#'   convertMatureMirnasToVersions(gng, 'hsa-miR-29a', c(17, 21, 22))
+#'   convertMatureMirnasToVersions('hsa-miR-29a', c(17, 21, 22))
 #'        InputId MatureAccession miRBaseVersion    TargetMirna
 #'  1 hsa-miR-29a    MIMAT0000086             17    hsa-miR-29a
 #'  2 hsa-miR-29a    MIMAT0000086             21 hsa-miR-29a-3p
 #'  3 hsa-miR-29a    MIMAT0000086             22 hsa-miR-29a-3p
 #' }
 #' \dontrun{
-#'   gng = GeneNameGenieR();
-#'   convertMatureMirnasToVersions(gng, 'hsa-miR-29a', c(17, 21, 22), sequence = TRUE)
+#'   convertMatureMirnasToVersions('hsa-miR-29a', c(17, 21, 22), sequence = TRUE)
 #'       InputId MatureAccession miRBaseVersion    TargetMirna         TargetSequence
 #' 1 hsa-miR-29a    MIMAT0000086             17    hsa-miR-29a UAGCACCAUCUGAAAUCGGUUA
 #' 2 hsa-miR-29a    MIMAT0000086             21 hsa-miR-29a-3p UAGCACCAUCUGAAAUCGGUUA
@@ -155,8 +136,7 @@ setMethod("convertToCurrentMirbaseVersion",
 #' }
 #'
 #' \dontrun{
-#'   gng = GeneNameGenieR();
-#'   convertMatureMirnasToVersions(gng, c('hsa-miR-29a', 'hsa-miR-378'), c(17, 21, 22))
+#'   convertMatureMirnasToVersions(c('hsa-miR-29a', 'hsa-miR-378'), c(17, 21, 22))
 #'           InputId     n
 #'             <chr> <int>
 #'     1 hsa-miR-378     2
@@ -177,16 +157,7 @@ setMethod("convertToCurrentMirbaseVersion",
 #' }
 #'
 #' @export
-setGeneric(
-    "convertMatureMirnasToVersions",
-    signature = c("gng"),
-    function(gng, queryId, targetVersion = NA_integer_, species = "", sequence = FALSE) {
-        standardGeneric("convertMatureMirnasToVersions")
-    })
-
-setMethod("convertMatureMirnasToVersions",
-          signature(gng = "GeneNameGenieR"),
-          function(gng, queryId, targetVersion, species, sequence) {
+convertMatureMirnasToVersions = function(queryId, targetVersion = NA_integer_, species = "", sequence = FALSE) {
 
               if (anyNA(targetVersion)) {
                   targetVersion = 0.0;
@@ -208,7 +179,7 @@ setMethod("convertMatureMirnasToVersions",
                   q = paste0(q, ", value.TargetSequence AS TargetSequence");
               }
 
-              x = .postNeo4jRequest(gng, q,
+              x = .postNeo4jRequest(q,
                          queryIds = queryId,
                          versions = targetVersion,
                          species = species,
@@ -220,5 +191,5 @@ setMethod("convertMatureMirnasToVersions",
 
               return(x);
 
-          })
+          }
 

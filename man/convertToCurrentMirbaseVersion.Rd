@@ -4,12 +4,10 @@
 \alias{convertToCurrentMirbaseVersion}
 \title{Get current miRNA name for mature input miRNAs}
 \usage{
-convertToCurrentMirbaseVersion(gng, queryId, species = "",
+convertToCurrentMirbaseVersion(queryId, species = "",
   metadata = NA_character_)
 }
 \arguments{
-\item{gng}{A GeneNameGenieR object (e.g. \code{GeneNameGenieR()})}
-
 \item{queryId}{A string vector of miRNA identifiers which needs to be converted}
 
 \item{metadata}{A string vector with parameter values, such as `'sequence'` or `'type'`.}
@@ -22,15 +20,13 @@ the `queryType` can be specified passing through either `"mature"` or `"precurso
 \examples{
 
 \dontrun{
-  gng = GeneNameGenieR();
-  convertToCurrentMirbaseVersion(gng, 'hsa-miR-29a');
+  convertToCurrentMirbaseVersion('hsa-miR-29a');
         InputId    Accession   CurrentMirna CurrentVersion
   1 hsa-miR-29a MIMAT0000086 hsa-miR-29a-3p             22
 }
 \dontrun{
-  gng = GeneNameGenieR();
   queryIds = c('MIMAT0000447', 'hsa-mir-134', 'hsa-miR-134', 'MI0000146', 'hsa-miR-29a')
-  convertToCurrentMirbaseVersion(gng, queryIds, 'hsa', 'sequence');
+  convertToCurrentMirbaseVersion(queryIds, 'hsa', 'sequence');
        InputId    Accession   CurrentMirna CurrentVersion                                                                  Sequence
 1 MIMAT0000447 MIMAT0000447 hsa-miR-134-5p             22                                                    UGUGACUGGUUGACCAGAGGGG
 2  hsa-miR-134 MIMAT0000447 hsa-miR-134-5p             22                                                    UGUGACUGGUUGACCAGAGGGG
@@ -38,8 +34,7 @@ the `queryType` can be specified passing through either `"mature"` or `"precurso
 4  hsa-mir-134    MI0000474    hsa-mir-134             22 CAGGGUGUGUGACUGGUUGACCAGAGGGGCAUGCACUGUGUUCACCCUGUGGGCCACCUAGUCACCAACCCUC
 }
 \dontrun{
-  gng = GeneNameGenieR();
-  convertToCurrentMirbaseVersion(gng, queryIds, metadata = 'sequence');
+  convertToCurrentMirbaseVersion(queryIds, metadata = 'sequence');
        InputId    Accession   CurrentMirna CurrentVersion                                                                  Sequence
 1    MI0000146    MI0000146    mmu-mir-99a             22         CAUAAACCCGUAGAUCCGAUCUUGUGGUGAAGUGGACCGCGCAAGCUCGUUUCUAUGGGUCUGUG
 2 MIMAT0000447 MIMAT0000447 hsa-miR-134-5p             22                                                    UGUGACUGGUUGACCAGAGGGG
@@ -48,15 +43,13 @@ the `queryType` can be specified passing through either `"mature"` or `"precurso
 5  hsa-mir-134    MI0000474    hsa-mir-134             22 CAGGGUGUGUGACUGGUUGACCAGAGGGGCAUGCACUGUGUUCACCCUGUGGGCCACCUAGUCACCAACCCUC
 }
 \dontrun{
-  gng = GeneNameGenieR();
-  convertToCurrentMirbaseVersion(gng, 'hsa-mir-29a', metadata = c('sequence', 'type', 'previousIds'));
+  convertToCurrentMirbaseVersion('hsa-mir-29a', metadata = c('sequence', 'type', 'previousIds'));
       InputId Accession CurrentMirna CurrentVersion                                                         Sequence      Type PreviousIds
 1 hsa-mir-29a MI0000087  hsa-mir-29a             22 AUGACUGAUUUCUUUUGGUGUUCAGAGUCAAUAUAAUUUUCUAGCACCAUCUGAAAUCGGUUAU antisense  hsa-mir-29
 }
 \dontrun{
-  gng = GeneNameGenieR();
   queryIds = c('hsa-mir-134', 'hsa-mir-29a')
-  convertToCurrentMirbaseVersion(gng, queryIds, metadata = c('type', 'previousIds'));
+  convertToCurrentMirbaseVersion(queryIds, metadata = c('type', 'previousIds'));
       InputId Accession CurrentMirna CurrentVersion      Type PreviousIds
 1 hsa-mir-134 MI0000474  hsa-mir-134             22 antisense
 2 hsa-mir-29a MI0000087  hsa-mir-29a             22 antisense  hsa-mir-29

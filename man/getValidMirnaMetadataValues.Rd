@@ -4,10 +4,7 @@
 \alias{getValidMirnaMetadataValues}
 \title{Available attributes}
 \usage{
-getValidMirnaMetadataValues(gng)
-}
-\arguments{
-\item{gng}{An instance of the \code{GeneNameGenieR} object (e.g. \preformatted{gng = new("GeneNameGenieR")})}
+getValidMirnaMetadataValues()
 }
 \value{
 A \preformatted{data.frame} object with the columns DatabaseDisplayName and DatabaseID.
@@ -18,8 +15,7 @@ Returns a table containing all supported attributes that can serve as
 }
 \examples{
 \dontrun{
-  gng = GeneNameGenieR();
-  getValidMirnaMetadataValues(gng);
+  getValidMirnaMetadataValues();
 }
 }
 \seealso{

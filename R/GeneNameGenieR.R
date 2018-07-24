@@ -14,47 +14,36 @@ library(magrittr)
 library(jsonlite)
 library(httr)
 
+pkg.env = new.env();
+
 DEFAULT_PORT = 7474;
 DEFAULT_PATH = "db/data/";
 DEFAULT_HOST = "http://localhost";
+pkg.env$port = DEFAULT_PORT;
+pkg.env$path = DEFAULT_PATH;
+pkg.env$host = DEFAULT_HOST;
+pkg.env$url = "http://localhost:7474/db/data/";
+pkg.env$cypherEndpoint = "cypher";
+pkg.env$toAddDbCols = c(ArrayExpress = "Ensembl.Human.Gene",
+                Ens_Hs_transcript = "Ensembl.Human.Transcript",
+                Ens_Hs_translation = "Ensembl.Human.Translation");
+
 setOldClass("graph")
 
-#' @title Instantiate from MiRNANameConverter class
-#'
-#' @description This function returns back an instance of a
-#' \emph{MiRNANAmeConverter} object.
-#'
-#' @slot url Database connection
-#' @slot graph Valid/Supported miRBase versions
-#' @slot toAddDbCols Number of different organisms supported
-#' @author Stefan J. Haunsberger
-#'
-#' For bug reports, please
-#' \href{https://github.com/StefanHaunsberger/GeneNameGenieR/issues}{create a new GitHub issue}.
-GeneNameGenieR = setClass("GeneNameGenieR",
-    slots = list(
-        url = "character",
-        host = "character",
-        path = "character",
-        port = "numeric",
-        cypherEndpoint = "character",
-        verbose = "logical",
-        toAddDbCols = "character"
-    ),
-    prototype = list(
-        url = paste(paste(DEFAULT_HOST, DEFAULT_PORT, sep = ":"), DEFAULT_PATH, sep = "/"),
-        host = "localhost",
-        path = "db/data/",
-        port = 7474,
-        cypherEndpoint = "cypher",
-        verbose = FALSE,
-        toAddDbCols = c(ArrayExpress = "Ensembl.Human.Gene",
-                        Ens_Hs_transcript = "Ensembl.Human.Transcript",
-                        Ens_Hs_translation = "Ensembl.Human.Translation")
-    )
-);
 
-validityGeneNameGenieObj = function(object) {
+setClassUnion("missingOrNULL", c("missing", "NULL"))
+
+#' @title Set GeneNameGenie-Neo4j connection
+#'
+#' @description The connection defaults to 'localhost' if not specified differently.
+#'
+#' @param host A string value of the host, such as 'localhost' or an IP address
+#' @param port An integer value for the port, such as 7474 (default)
+#' @param path String value containing the path to the database files (defaults to `db/data/`). The value must end on a `/` (slash).
+#' @param chromosomal Boolean parameter (default TRUE). Whether the search and output shall include features located on
+#'
+#' @export setNeo4jConnection
+setNeo4jConnection = function(host = DEFAULT_HOST, port = DEFAULT_PORT, path = DEFAULT_PATH) {
     errors = character(0);
     for (slotName in c("host", "path", "port")) {
         if (length(slot(object, slotName)) != 1) {
@@ -69,25 +58,27 @@ validityGeneNameGenieObj = function(object) {
     if (length(errors) > 0) {
         errors;
     } else {
-        TRUE
+    pkg.env$host = host;
+    pkg.env$port = port;
+    pkg.env$path = path;
+    pkg.env$url = paste(paste(host, port, sep = ":"), path, sep = "/");
+
     }
 }
 
-setValidity("GeneNameGenieR", validityGeneNameGenieObj)
-
-# #' @exportClass GeneNameGenieR
-
-#' @param host : Graph database URL, such as "localhost"
-#' @param port : Port where the DB is exposed, such as 7474
-#' @param path : Location of the data (defaults to `/db/data/`)
-#' @export
-GeneNameGenieR = function(host = DEFAULT_HOST, port = DEFAULT_PORT, path = DEFAULT_PATH) {
-    g = new("GeneNameGenieR",
-            host = host,
-            port = port,
-            path = path,
-            url = paste(paste(host, port, sep = ":"), path, sep = "/"));
-    return(g);
+#' @title Show GeneNameGenie-Neo4j connection details
+#'
+#' @export setNeo4jConnection
+showGNGConfig = function() {
+    cat(paste0(
+        "GeneNameGenie-Neo4j configuration:\n",
+        "------------------------------------",
+        "host: \t", pkg.env$host, "\n",
+        "port: \t", pkg.env$port, "\n",
+        "path: \t", pkg.env$path, "\n",
+        "url: \t", pkg.env$url, "\n",
+        "cypher-endpoint: ", pkg.env$cypherEndpoint, "\n"
+    ));
 }
 
 source("R/parameters.R")
@@ -100,7 +91,6 @@ source("R/utils.R")
 #' If `sourceDb` is missing, the database will automatically try to detect the queryId's
 #'   source database. Per default `chromosomal` is set to `true`.
 #'
-#' @param gng A GeneNameGenieR object (e.g. \code{GeneNameGenieR()})
 #' @param queryId A character vector of molecular identifiers that needs to be converted
 #' @param targetDb A character vector of target databases (default equals to 'EntrezGene' and 'GeneSymbolDb' for
 #' the Entrez gene ID and official gene symbol respectively)
@@ -113,24 +103,13 @@ source("R/utils.R")
 #' @examples
 #'
 #' \dontrun{
-#'   gng = GeneNameGenieR();
-#'   getOfficialGeneSymbol(gng, "Bcl-2")
+#'   getOfficialGeneSymbol("Bcl-2")
 #'     InputId     InputSourceDb OfficialGeneSymbol
 #'   1   Bcl-2 Gene Symbol Alias               BCL2
 #' }
 #'
 #' @export
-setGeneric(
-    "getOfficialGeneSymbol",
-    signature = c("gng"),
-    function(gng, queryId, sourceDb = NA_character_, chromosomal = TRUE) {
-        standardGeneric("getOfficialGeneSymbol")
-    })
-
-# @export
-setMethod("getOfficialGeneSymbol",
-          signature(gng = "GeneNameGenieR"),
-  function(gng, queryId, sourceDb, chromosomal) {
+getOfficialGeneSymbol = function(queryId, sourceDb = NA_character_, chromosomal = TRUE) {
 
   q = paste0("CALL rcsi.convert.table.getOfficialGeneSymbol(",
       ifelse(length(queryId) == 1, "[{ids}], ", "{ids}, "),
@@ -142,7 +121,7 @@ setMethod("getOfficialGeneSymbol",
       "   value.OfficialGeneSymbol AS OfficialGeneSymbol");
 
 
-  x = .postNeo4jRequest(gng, q,
+  x = .postNeo4jRequest(q,
                      ids = queryId,
                      sourceDb = sourceDb,
                      chromosomal = chromosomal);
@@ -151,14 +130,13 @@ setMethod("getOfficialGeneSymbol",
 
   return(x);
 
-})
+}
 
 #' @title Convert molecular identifier to target identifiers
 #'
 #' @description Converts molecular input identifier to identifier from target database. Thereby, the source database of the
 #' input identifier does not have to be specified as the database detects the corresponding database automatically.
 #'
-#' @param gng A GeneNameGenieR object (e.g. \code{GeneNameGenieR()})
 #' @param queryId A character vector of molecular identifiers that needs to be converted
 #' @param targetDb A character vecotr of target databases (default equals to 'EntrezGene' and 'GeneSymbolDb' for
 #' the Entrez gene ID and official gene symbol respectively)
@@ -173,8 +151,7 @@ setMethod("getOfficialGeneSymbol",
 #'
 #' @examples
 #' \dontrun{
-#'   gng = GeneNameGenieR();
-#'   convertFromTo(gng, c("BCL2", "AMPK"), "EntrezGene");
+#'   convertFromTo(c("BCL2", "AMPK"), "EntrezGene");
 #'   InputId        InputSourceDb  TargetDb TargetId
 #' 1    BCL2 Official Gene Symbol NCBI gene      596
 #' 2    AMPK    Gene Symbol Alias NCBI gene     5563
@@ -182,21 +159,11 @@ setMethod("getOfficialGeneSymbol",
 #'
 #' @export
 #' @seealso \code{\link{query}}
-setGeneric(
-   "convertFromTo",
-   signature = c("gng"),
-   function(gng, queryId, targetDb = c("GeneSymbolDB"), sourceDb = NA, longFormat = TRUE, chromosomal = TRUE) {
-      standardGeneric("convertFromTo")
-})
-
-# @export
-setMethod("convertFromTo",
-   signature(gng = "GeneNameGenieR"),
-    function(gng, queryId, targetDb, sourceDb, longFormat, chromosomal) {
+convertFromTo = function(queryId, targetDb = c("GeneSymbolDB"), sourceDb = NA, longFormat = TRUE, chromosomal = TRUE) {
 
     tDb = targetDb;
     if (!longFormat) {
-        tDb = c(tDb, names(gng@toAddDbCols));
+        tDb = c(tDb, names(pkg.env$toAddDbCols));
     }
 
     q = paste0("CALL rcsi.convert.table.convertIds(",
@@ -211,7 +178,7 @@ setMethod("convertFromTo",
                "value.TargetDb AS TargetDb, ",
                "value.TargetId AS TargetId;");
 
-    x = .postNeo4jRequest(gng, q,
+    x = .postNeo4jRequest(q,
                ids = queryId,
                dbs = tDb,
                sourceDb = sourceDb,
@@ -221,7 +188,7 @@ setMethod("convertFromTo",
         x = .unstackDf(x);
         # remove artifially added columns
         colDiff = setdiff(tDb, targetDb);
-        x = x[,!(names(x) %in% gng@toAddDbCols[colDiff])];
+        x = x[,!(names(x) %in% pkg.env$toAddDbCols[colDiff])];
     }
     if (nrow(x) > 0) {
         x = dplyr::distinct(x);
@@ -230,9 +197,4 @@ setMethod("convertFromTo",
 
     return(x);
 
-})
-
-
-
-
-
+}

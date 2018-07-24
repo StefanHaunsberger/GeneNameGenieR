@@ -4,12 +4,10 @@
 \alias{convertMatureMirnasToVersions}
 \title{Translate mature miRNA names to different versions}
 \usage{
-convertMatureMirnasToVersions(gng, queryId, targetVersion = NA_integer_,
+convertMatureMirnasToVersions(queryId, targetVersion = NA_integer_,
   species = "", sequence = FALSE)
 }
 \arguments{
-\item{gng}{A GeneNameGenieR object (e.g. \code{GeneNameGenieR()})}
-
 \item{queryId}{A character vector of miRNA identifiers which needs to be converted}
 
 \item{targetVersion}{A numeric vector with the target miRBase version(s), such as `c(20, 21)` (default: 22).}
@@ -26,22 +24,19 @@ multiple `targetVersion`(s). Optionally the `species` can be provided and if
 \examples{
 
 \dontrun{
-  gng = GeneNameGenieR();
-  convertMatureMirnasToVersions(gng, 'hsa-miR-29a');
+  convertMatureMirnasToVersions('hsa-miR-29a');
         InputId MatureAccession miRBaseVersion    TargetMirna
   1 hsa-miR-29a    MIMAT0000086             22 hsa-miR-29a-3p
 }
 \dontrun{
-  gng = GeneNameGenieR();
-  convertMatureMirnasToVersions(gng, 'hsa-miR-29a', c(17, 21, 22))
+  convertMatureMirnasToVersions('hsa-miR-29a', c(17, 21, 22))
        InputId MatureAccession miRBaseVersion    TargetMirna
  1 hsa-miR-29a    MIMAT0000086             17    hsa-miR-29a
  2 hsa-miR-29a    MIMAT0000086             21 hsa-miR-29a-3p
  3 hsa-miR-29a    MIMAT0000086             22 hsa-miR-29a-3p
 }
 \dontrun{
-  gng = GeneNameGenieR();
-  convertMatureMirnasToVersions(gng, 'hsa-miR-29a', c(17, 21, 22), sequence = TRUE)
+  convertMatureMirnasToVersions('hsa-miR-29a', c(17, 21, 22), sequence = TRUE)
       InputId MatureAccession miRBaseVersion    TargetMirna         TargetSequence
 1 hsa-miR-29a    MIMAT0000086             17    hsa-miR-29a UAGCACCAUCUGAAAUCGGUUA
 2 hsa-miR-29a    MIMAT0000086             21 hsa-miR-29a-3p UAGCACCAUCUGAAAUCGGUUA
@@ -49,8 +44,7 @@ multiple `targetVersion`(s). Optionally the `species` can be provided and if
 }
 
 \dontrun{
-  gng = GeneNameGenieR();
-  convertMatureMirnasToVersions(gng, c('hsa-miR-29a', 'hsa-miR-378'), c(17, 21, 22))
+  convertMatureMirnasToVersions(c('hsa-miR-29a', 'hsa-miR-378'), c(17, 21, 22))
           InputId     n
             <chr> <int>
     1 hsa-miR-378     2

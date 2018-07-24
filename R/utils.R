@@ -83,7 +83,7 @@
     return(paramBody);
 }
 
-.postNeo4jRequest = function(gng, query, ...) {
+.postNeo4jRequest = function(query, ...) {
 
     args = as.list(match.call());
 
@@ -97,7 +97,7 @@
         body = paste0('{ \"query\": \"', query, "\"", paramBody, "\n}");
 
         # req = httr::POST("http://localhost:7474/db/data/transaction/commit",
-        req = httr::POST(paste0(gng@url, gng@cypherEndpoint, sep = ""),
+        req = httr::POST(paste0(pkg.env$url, pkg.env$cypherEndpoint, sep = ""),
                          body = body);
 
         if (req$status_code != 200) {

@@ -4,10 +4,7 @@
 \alias{getValidDatabases}
 \title{Show all supported DBs}
 \usage{
-getValidDatabases(gng)
-}
-\arguments{
-\item{gng}{An instance of the GeneNameGenieR object (e.g. \code{gng = GeneNameGenieR()})}
+getValidDatabases()
 }
 \value{
 A \preformatted{data.frame} object with the columns DatabaseDisplayName and DatabaseID.
@@ -18,8 +15,7 @@ used for example as targetDbs parameter in the \code{query} and \code{convertFro
 }
 \examples{
 \dontrun{
-  gng = GeneNameGenieR();
-  getValidDatabases(gng);
+  getValidDatabases();
 }
 
 }

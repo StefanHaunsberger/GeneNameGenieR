@@ -4,12 +4,10 @@
 \alias{convertFromTo}
 \title{Convert molecular identifier to target identifiers}
 \usage{
-convertFromTo(gng, queryId, targetDb = c("GeneSymbolDB"), sourceDb = NA,
+convertFromTo(queryId, targetDb = c("GeneSymbolDB"), sourceDb = NA,
   longFormat = TRUE, chromosomal = TRUE)
 }
 \arguments{
-\item{gng}{A GeneNameGenieR object (e.g. \code{GeneNameGenieR()})}
-
 \item{queryId}{A character vector of molecular identifiers that needs to be converted}
 
 \item{targetDb}{A character vecotr of target databases (default equals to 'EntrezGene' and 'GeneSymbolDb' for
@@ -33,8 +31,7 @@ input identifier does not have to be specified as the database detects the corre
 }
 \examples{
 \dontrun{
-  gng = GeneNameGenieR();
-  convertFromTo(gng, c("BCL2", "AMPK"), "EntrezGene");
+  convertFromTo(c("BCL2", "AMPK"), "EntrezGene");
   InputId        InputSourceDb  TargetDb TargetId
 1    BCL2 Official Gene Symbol NCBI gene      596
 2    AMPK    Gene Symbol Alias NCBI gene     5563

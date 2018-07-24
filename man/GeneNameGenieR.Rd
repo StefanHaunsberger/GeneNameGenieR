@@ -4,44 +4,10 @@
 \name{GeneNameGenieR}
 \alias{GeneNameGenieR}
 \alias{GeneNameGenieR-package}
-\alias{GeneNameGenieR}
-\alias{GeneNameGenieR}
 \title{GeneNameGenieR: Lightning fast graph based gene name converter}
-\usage{
-GeneNameGenieR(host = DEFAULT_HOST, port = DEFAULT_PORT,
-  path = DEFAULT_PATH)
-
-GeneNameGenieR(host = DEFAULT_HOST, port = DEFAULT_PORT,
-  path = DEFAULT_PATH)
-}
-\arguments{
-\item{host}{: Graph database URL, such as "localhost"}
-
-\item{port}{: Port where the DB is exposed, such as 7474}
-
-\item{path}{: Location of the data (defaults to `/db/data/`)}
-}
 \description{
 
-
-This function returns back an instance of a
-\emph{MiRNANAmeConverter} object.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{url}}{Database connection}
-
-\item{\code{graph}}{Valid/Supported miRBase versions}
-
-\item{\code{toAddDbCols}}{Number of different organisms supported}
-}}
-
 \author{
 Stefan J. Haunsberger
-
-Stefan J. Haunsberger
-
-For bug reports, please
-\href{https://github.com/StefanHaunsberger/GeneNameGenieR/issues}{create a new GitHub issue}.
 }

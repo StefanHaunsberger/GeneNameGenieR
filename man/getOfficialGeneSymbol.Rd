@@ -4,12 +4,9 @@
 \alias{getOfficialGeneSymbol}
 \title{Convert input id to its corresponding official gene symbol}
 \usage{
-getOfficialGeneSymbol(gng, queryId, sourceDb = NA_character_,
-  chromosomal = TRUE)
+getOfficialGeneSymbol(queryId, sourceDb = NA_character_, chromosomal = TRUE)
 }
 \arguments{
-\item{gng}{A GeneNameGenieR object (e.g. \code{GeneNameGenieR()})}
-
 \item{queryId}{A character vector of molecular identifiers that needs to be converted}
 
 \item{sourceDb}{String containing the origin database of the input ID(s) (optional).}
@@ -30,8 +27,7 @@ If `sourceDb` is missing, the database will automatically try to detect the quer
 \examples{
 
 \dontrun{
-  gng = GeneNameGenieR();
-  getOfficialGeneSymbol(gng, "Bcl-2")
+  getOfficialGeneSymbol("Bcl-2")
     InputId     InputSourceDb OfficialGeneSymbol
   1   Bcl-2 Gene Symbol Alias               BCL2
 }

@@ -4,10 +4,7 @@
 \alias{getValidGngAttributes}
 \title{Available attributes}
 \usage{
-getValidGngAttributes(gng)
-}
-\arguments{
-\item{gng}{An instance of the \code{GeneNameGenieR} object (e.g. \preformatted{gng = new("GeneNameGenieR")})}
+getValidGngAttributes()
 }
 \value{
 A \preformatted{data.frame} object with the columns DatabaseDisplayName and DatabaseID.
@@ -18,8 +15,7 @@ Returns a table containing all supported attributes that can serve as
 }
 \examples{
 \dontrun{
-  gng = GeneNameGenieR();
-  getValidGngAttributes(gng);
+  getValidGngAttributes();
 }
 }
 \seealso{

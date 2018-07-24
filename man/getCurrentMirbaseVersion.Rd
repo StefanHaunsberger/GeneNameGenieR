@@ -4,13 +4,10 @@
 \alias{getCurrentMirbaseVersion}
 \title{Get highest supported miRBase release version information}
 \usage{
-getCurrentMirbaseVersion(gng)
-}
-\arguments{
-\item{gng}{An instance of the \code{GeneNameGenieR} object (e.g. \preformatted{gng = GeneNameGenieR()})}
+getCurrentMirbaseVersion()
 }
 \examples{
 \dontrun{
-  getCurrentMirbaseVersion(GeneNameGenieR());
+  getCurrentMirbaseVersion();
 }
 }
