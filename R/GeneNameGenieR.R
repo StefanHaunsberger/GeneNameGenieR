@@ -82,7 +82,11 @@ setValidity("GeneNameGenieR", validityGeneNameGenieObj)
 #' @param path : Location of the data (defaults to `/db/data/`)
 #' @export
 GeneNameGenieR = function(host = DEFAULT_HOST, port = DEFAULT_PORT, path = DEFAULT_PATH) {
-    g = new("GeneNameGenieR", host = host, port = port, path = path);
+    g = new("GeneNameGenieR",
+            host = host,
+            port = port,
+            path = path,
+            url = paste(paste(host, port, sep = ":"), path, sep = "/"));
     return(g);
 }
 

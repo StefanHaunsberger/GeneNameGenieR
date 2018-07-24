@@ -63,7 +63,8 @@ To use a different URL pass the URL as a string parameter to the GeneNameGenieR 
 instantiation:
 
 ```r
-gng = GeneNameGenieR("http://<url>:<port>/db/data")
+# Basic structur GeneNameGenieR(host = "<url>", port = <port>, path = "<path>")
+gng = GeneNameGenieR("localhost")
 ```
 
 # Use Cases
