@@ -82,62 +82,10 @@ setValidity("GeneNameGenieR", validityGeneNameGenieObj)
 #' @param path : Location of the data (defaults to `/db/data/`)
 #' @export
 GeneNameGenieR = function(host = DEFAULT_HOST, port = DEFAULT_PORT, path = DEFAULT_PATH) {
-    # if (is.na(url)) {
-    #     url = DEFAULT_HOST;
-    # }
-
     g = new("GeneNameGenieR", host = host, port = port, path = path);
-    # g@baseUrl = url;
     return(g);
 }
 
-##### initialization ####
-# Initialization function (constructor)
-# setMethod(
-#     f = "initialize",
-#     signature("GeneNameGenieR"),
-#     definition = function(.Object, url) {
-#
-#         args = as.list(match.call());
-#         url = "";
-#         print(args)
-#         if (is.na(args["url"])) {
-#             url = DEFAULT_URL;
-#         } else {
-#             url = args["url"];
-#         }
-#         .Object@graph = RNeo4j::startGraph(url);
-#
-#         return(.Object);
-#     }
-# )
-
-# ##### GeneNameGenieR - constructor ####
-# #' @title GeneNameGenieR constructor
-# #'
-# #' @description This function returns an instance of a GeneNameGenieR class.
-# #'
-# #' @return an object of class 'GeneNameGenieR'
-# #' @examples
-# #' \dontrun{
-# #' gng = GeneNameGenieR() # Instance of class 'GeneNameGenieR'
-# #' }
-# #' @details
-# #' This function initializes an object of the class GeneNameGenieR It is a
-# #' wrapper for \code{new()}.
-# #'
-# #' @param url : Graph database URL, such as "http://localhost:7474/db/data/"
-# #'
-# #' @seealso \code{\link{new}}
-# #' @author Stefan J. Haunsberger
-# #' @export GeneNameGenieR
-# setMethod(
-#     f = "GeneNameGenieR",
-#     signature(),
-#     definition = function(url = NA_character_) {
-#         return(new('GeneNameGenieR', url));
-#     }
-# )
 source("R/parameters.R")
 source("R/utils.R")
 # source("R/mirnameconversion.R")
