@@ -118,9 +118,9 @@
         x = as.data.frame(x = obj$data, stringsAsFactors = FALSE);
         if (nrow(x) == 0) {
             return(x)
-        } else {
-            colnames(x) = obj$columns;
         }
+
+        colnames(x) = obj$columns;
     } else {
         print("no query provided");
     }
@@ -323,7 +323,14 @@
 
 }
 
-.postCheckInput = function(x) {
+.postCheckInput = function(x, ids) {
+
+    # Check if there are input IDs which had no records returned from GNG
+    nFail = sum(!(ids %in% x$InputId))
+    if (nFail != 0) {
+        warning(sprintf("%i input ID(s) not contained in the result set.", nFail));
+    }
+
     # Find all input values that resolve to multiple input sources
     # e.g. '596' is an EntrezGene ID as well as a WikiGene ID
     x2 = x %>%

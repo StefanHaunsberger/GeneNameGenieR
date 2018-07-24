@@ -30,9 +30,6 @@ pkg.env$toAddDbCols = c(ArrayExpress = "Ensembl.Human.Gene",
 
 setOldClass("graph")
 
-
-setClassUnion("missingOrNULL", c("missing", "NULL"))
-
 #' @title Set GeneNameGenie-Neo4j connection
 #'
 #' @description The connection defaults to 'localhost' if not specified differently.
@@ -68,8 +65,8 @@ setNeo4jConnection = function(host = DEFAULT_HOST, port = DEFAULT_PORT, path = D
 
 #' @title Show GeneNameGenie-Neo4j connection details
 #'
-#' @export setNeo4jConnection
-showGNGConfig = function() {
+#' @export showGeneNameGenieConfig
+showGeneNameGenieConfig = function() {
     cat(paste0(
         "GeneNameGenie-Neo4j configuration:\n",
         "------------------------------------",
@@ -120,13 +117,14 @@ getOfficialGeneSymbol = function(queryId, sourceDb = NA_character_, chromosomal 
       "   value.InputSourceDb AS InputSourceDb, ",
       "   value.OfficialGeneSymbol AS OfficialGeneSymbol");
 
-
   x = .postNeo4jRequest(q,
                      ids = queryId,
                      sourceDb = sourceDb,
                      chromosomal = chromosomal);
 
-  .postCheckInput(x);
+  if (nrow(x) > 0) {
+      .postCheckInput(x, queryId);
+  }
 
   return(x);
 
@@ -192,7 +190,7 @@ convertFromTo = function(queryId, targetDb = c("GeneSymbolDB"), sourceDb = NA, l
     }
     if (nrow(x) > 0) {
         x = dplyr::distinct(x);
-        .postCheckInput(x);
+        .postCheckInput(x, queryId);
     }
 
     return(x);
