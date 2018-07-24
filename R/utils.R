@@ -97,7 +97,7 @@
         body = paste0('{ \"query\": \"', query, "\"", paramBody, "\n}");
 
         # req = httr::POST("http://localhost:7474/db/data/transaction/commit",
-        req = httr::POST(paste0(gng@baseUrl, gng@cypherEndpoint, sep = ""),
+        req = httr::POST(paste0(gng@url, gng@cypherEndpoint, sep = ""),
                          body = body);
 
         if (req$status_code != 200) {

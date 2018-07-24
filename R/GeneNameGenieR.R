@@ -14,8 +14,9 @@ library(magrittr)
 library(jsonlite)
 library(httr)
 
-DEFAULT_URL = "http://localhost:7474/db/data/";
-URL = DEFAULT_URL;
+DEFAULT_PORT = 7474;
+DEFAULT_PATH = "db/data/";
+DEFAULT_HOST = "http://localhost";
 setOldClass("graph")
 
 #' @title Instantiate from MiRNANameConverter class
@@ -32,13 +33,19 @@ setOldClass("graph")
 #' \href{https://github.com/StefanHaunsberger/GeneNameGenieR/issues}{create a new GitHub issue}.
 GeneNameGenieR = setClass("GeneNameGenieR",
     slots = list(
-        baseUrl = "character",
+        url = "character",
+        host = "character",
+        path = "character",
+        port = "numeric",
         cypherEndpoint = "character",
         verbose = "logical",
         toAddDbCols = "character"
     ),
     prototype = list(
-        baseUrl = DEFAULT_URL,
+        url = paste(paste(DEFAULT_HOST, DEFAULT_PORT, sep = ":"), DEFAULT_PATH, sep = "/"),
+        host = "localhost",
+        path = "db/data/",
+        port = 7474,
         cypherEndpoint = "cypher",
         verbose = FALSE,
         toAddDbCols = c(ArrayExpress = "Ensembl.Human.Gene",
@@ -46,16 +53,40 @@ GeneNameGenieR = setClass("GeneNameGenieR",
                         Ens_Hs_translation = "Ensembl.Human.Translation")
     )
 );
-# #' @exportClass GeneNameGenieR
 
-#' @param url : Graph database URL, such as "http://localhost:7474/db/data/"
-#' @export
-GeneNameGenieR = function(url = NA_character_) {
-    if (is.na(url)) {
-        url = DEFAULT_URL;
+validityGeneNameGenieObj = function(object) {
+    errors = character(0);
+    for (slotName in c("host", "path", "port")) {
+        if (length(slot(object, slotName)) != 1) {
+            errors = c(errors, sprintf("Length of slot %s must be 1", slotName));
+        }
     }
 
-    g = new("GeneNameGenieR", baseUrl = url);
+    if (!endsWith(object@path, "/")) {
+        errors = c(errors, sprintf("Slot 'path' must end on '/' (slash)"));
+    }
+
+    if (length(errors) > 0) {
+        errors;
+    } else {
+        TRUE
+    }
+}
+
+setValidity("GeneNameGenieR", validityGeneNameGenieObj)
+
+# #' @exportClass GeneNameGenieR
+
+#' @param host : Graph database URL, such as "localhost"
+#' @param port : Port where the DB is exposed, such as 7474
+#' @param path : Location of the data (defaults to `/db/data/`)
+#' @export
+GeneNameGenieR = function(host = DEFAULT_HOST, port = DEFAULT_PORT, path = DEFAULT_PATH) {
+    # if (is.na(url)) {
+    #     url = DEFAULT_HOST;
+    # }
+
+    g = new("GeneNameGenieR", host = host, port = port, path = path);
     # g@baseUrl = url;
     return(g);
 }

@@ -8,12 +8,18 @@
 \alias{GeneNameGenieR}
 \title{GeneNameGenieR: Lightning fast graph based gene name converter}
 \usage{
-GeneNameGenieR(url = NA_character_)
+GeneNameGenieR(host = DEFAULT_HOST, port = DEFAULT_PORT,
+  path = DEFAULT_PATH)
 
-GeneNameGenieR(url = NA_character_)
+GeneNameGenieR(host = DEFAULT_HOST, port = DEFAULT_PORT,
+  path = DEFAULT_PATH)
 }
 \arguments{
-\item{url}{: Graph database URL, such as "http://localhost:7474/db/data/"}
+\item{host}{: Graph database URL, such as "localhost"}
+
+\item{port}{: Port where the DB is exposed, such as 7474}
+
+\item{path}{: Location of the data (defaults to `/db/data/`)}
 }
 \description{
 
