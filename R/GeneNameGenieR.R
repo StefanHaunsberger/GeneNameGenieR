@@ -69,11 +69,11 @@ setNeo4jConnection = function(host = DEFAULT_HOST, port = DEFAULT_PORT, path = D
 showGeneNameGenieConfig = function() {
     cat(paste0(
         "GeneNameGenie-Neo4j configuration:\n",
-        "------------------------------------",
-        "host: \t", pkg.env$host, "\n",
-        "port: \t", pkg.env$port, "\n",
-        "path: \t", pkg.env$path, "\n",
-        "url: \t", pkg.env$url, "\n",
+        "----------------------------------\n",
+        "host: ", pkg.env$host, "\n",
+        "port: ", pkg.env$port, "\n",
+        "path: ", pkg.env$path, "\n",
+        "url: ", pkg.env$url, "\n",
         "cypher-endpoint: ", pkg.env$cypherEndpoint, "\n"
     ));
 }
