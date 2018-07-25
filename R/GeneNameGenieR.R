@@ -37,7 +37,6 @@ setOldClass("graph")
 #' @param host A string value of the host, such as 'localhost' or an IP address
 #' @param port An integer value for the port, such as 7474 (default)
 #' @param path String value containing the path to the database files (defaults to `db/data/`). The value must end on a `/` (slash).
-#' @param chromosomal Boolean parameter (default TRUE). Whether the search and output shall include features located on
 #'
 #' @export setNeo4jConnection
 setNeo4jConnection = function(host = DEFAULT_HOST, port = DEFAULT_PORT, path = DEFAULT_PATH) {
@@ -95,7 +94,7 @@ source("R/utils.R")
 #' @param sourceDb String containing the origin database of the input ID(s) (optional).
 #' @param chromosomal Boolean parameter (default TRUE). Whether the search and output shall include features located on
 #' chromosomes other than the standard 23 {1,...21, X, Y}. Ensembl also includes features that are located on so called
-#' alternative human chromosomes, such as CHR_HSCHR5_6_CTG1. In the case where \preformatted{chromosomal} is \preformatted{FALSE}, not even input
+#' alternative human chromosomes, such as CHR_HSCHR5_6_CTG1. In the case where `chromosomal = FALSE`, not even input
 #' identifiers that are associated with this location will be found.
 #'
 #' @examples
@@ -143,7 +142,7 @@ getOfficialGeneSymbol = function(queryId, sourceDb = NA_character_, chromosomal 
 #' @param longFormat Boolean parameter (default TRUE). Indicates if returned dataframe is in the form of a longFormat
 #' @param chromosomal Boolean parameter (default TRUE). Whether the search and output shall include features located on
 #' chromosomes other than the standard 23 {1,...21, X, Y}. Ensembl also includes features that are located on so called
-#' alternative human chromosomes, such as CHR_HSCHR5_6_CTG1. In the case where \preformatted{chromosomal} is \preformatted{FALSE}, not even input
+#' alternative human chromosomes, such as CHR_HSCHR5_6_CTG1. In the case where `chromosomal = FALSE`, not even input
 #' identifiers that are associated with this location will be found.
 #'
 #' @return A data.frame object with the columns InputId, InputSourceDb and columns containing TargetDb and TargetId values.
