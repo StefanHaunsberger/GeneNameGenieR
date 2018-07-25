@@ -42,14 +42,15 @@ setOldClass("graph")
 #' @export setNeo4jConnection
 setNeo4jConnection = function(host = DEFAULT_HOST, port = DEFAULT_PORT, path = DEFAULT_PATH) {
     errors = character(0);
-    for (slotName in c("host", "path", "port")) {
-        if (length(slot(object, slotName)) != 1) {
-            errors = c(errors, sprintf("Length of slot %s must be 1", slotName));
+    for (varName in c("host", "path", "port")) {
+        if (length(varName) != 1) {
+            errors = c(errors, sprintf("Length of variable %s must be 1", varName));
         }
     }
 
-    if (!endsWith(object@path, "/")) {
-        errors = c(errors, sprintf("Slot 'path' must end on '/' (slash)"));
+    # Attach trailing '/' in case it is missing
+    if (!endsWith(path, "/")) {
+        path = paste0(path, "/");
     }
 
     if (length(errors) > 0) {
