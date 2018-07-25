@@ -58,10 +58,10 @@ library(GeneNameGenieR)
 ## Database information
 
 GeneNameGenieR depends on a GeneNameGenie Neo4j graph database instance. This can either 
-be locally or online. The default URL is set to `http://localhost:7474/db/data/`. 
+be locally or online. The default URL is set to `http://localhost:7474/db/data/`.
+Hence, the default values , `host = http://localhost`, `port = 7474` and `path = db/data/`.
 
 If a different host address needs to be set, the `setNeo4jConnection` function can be used:
-
 ```r
 # setNeo4jConnection(host = "<url>", port = <port>, path = "<path>")
 ```
