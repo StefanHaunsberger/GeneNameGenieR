@@ -1,5 +1,5 @@
 
-require(GeneNameGenieR);
+library(GeneNameGenieR);
 
 testthat::context("mirnameconversion");
 

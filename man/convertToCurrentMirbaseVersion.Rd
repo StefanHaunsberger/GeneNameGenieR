@@ -10,6 +10,8 @@ convertToCurrentMirbaseVersion(queryId, species = "",
 \arguments{
 \item{queryId}{A string vector of miRNA identifiers which needs to be converted}
 
+\item{species}{Any of the 271 supported, three letter KEGG species, such as 'hsa' for _homo sapiens_ (species codes: https://www.genome.jp/kegg/catalog/org_list.html)}
+
 \item{metadata}{A string vector with parameter values, such as `'sequence'` or `'type'`.}
 }
 \description{

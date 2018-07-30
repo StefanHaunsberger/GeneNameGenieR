@@ -19,7 +19,7 @@ the Entrez gene ID and official gene symbol respectively)}
 
 \item{chromosomal}{Boolean parameter (default TRUE). Whether the search and output shall include features located on
 chromosomes other than the standard 23 {1,...21, X, Y}. Ensembl also includes features that are located on so called
-alternative human chromosomes, such as CHR_HSCHR5_6_CTG1. In the case where \preformatted{chromosomal} is \preformatted{FALSE}, not even input
+alternative human chromosomes, such as CHR_HSCHR5_6_CTG1. In the case where `chromosomal = FALSE`, not even input
 identifiers that are associated with this location will be found.}
 }
 \value{

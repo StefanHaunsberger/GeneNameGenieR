@@ -89,8 +89,6 @@ source("R/utils.R")
 #'   source database. Per default `chromosomal` is set to `true`.
 #'
 #' @param queryId A character vector of molecular identifiers that needs to be converted
-#' @param targetDb A character vector of target databases (default equals to 'EntrezGene' and 'GeneSymbolDb' for
-#' the Entrez gene ID and official gene symbol respectively)
 #' @param sourceDb String containing the origin database of the input ID(s) (optional).
 #' @param chromosomal Boolean parameter (default TRUE). Whether the search and output shall include features located on
 #' chromosomes other than the standard 23 {1,...21, X, Y}. Ensembl also includes features that are located on so called
@@ -156,7 +154,7 @@ getOfficialGeneSymbol = function(queryId, sourceDb = NA_character_, chromosomal 
 #' }
 #'
 #' @export
-#' @seealso \code{\link{query}}
+##' @seealso \code{\link{query}}
 convertFromTo = function(queryId, targetDb = c("GeneSymbolDB"), sourceDb = NA, longFormat = TRUE, chromosomal = TRUE) {
 
     tDb = targetDb;

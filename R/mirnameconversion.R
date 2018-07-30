@@ -21,6 +21,7 @@ Metadata_Map = c(confidence = "value.Conficence AS Confidence",
 #' the `queryType` can be specified passing through either `"mature"` or `"precursor"`.
 #'
 #' @param queryId A string vector of miRNA identifiers which needs to be converted
+#' @param species Any of the 271 supported, three letter KEGG species, such as 'hsa' for _homo sapiens_ (species codes: https://www.genome.jp/kegg/catalog/org_list.html)
 #' @param metadata A string vector with parameter values, such as `'sequence'` or `'type'`.
 #'
 #' @seealso \code{\link{getValidMirnaMetadataValues}}

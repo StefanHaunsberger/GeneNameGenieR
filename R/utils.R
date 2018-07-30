@@ -100,12 +100,6 @@
         req = httr::POST(paste0(pkg.env$url, pkg.env$cypherEndpoint, sep = ""),
                          body = body);
 
-        if (req$status_code != 200) {
-            stop("Unexpected status code returned by requst:\n",
-                 paste(capture.output(print(req)), collapse="\n"))
-        }
-
-        httr::stop_for_status(req);
         json = httr::content(req, "text");
 
         if (!jsonlite::validate(json)) {
@@ -114,6 +108,15 @@
 
         # parse JSON object
         obj = jsonlite::fromJSON(json);
+
+        if (req$status_code != 200) {
+            httr::warn_for_status(req, paste0(obj$message));
+            if (grepl("CALL rcsi.params.getValidDatabases()", obj$message)) {
+                stop(paste0("please see GeneNameGenieR::getValidDatabases() for valid sourceDb values."));
+            } else {
+                stop("Unexpected status code returned by request.");
+            }
+        }
 
         x = as.data.frame(x = obj$data, stringsAsFactors = FALSE);
         if (nrow(x) == 0) {

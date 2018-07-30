@@ -13,8 +13,6 @@ setNeo4jConnection(host = DEFAULT_HOST, port = DEFAULT_PORT,
 \item{port}{An integer value for the port, such as 7474 (default)}
 
 \item{path}{String value containing the path to the database files (defaults to `db/data/`). The value must end on a `/` (slash).}
-
-\item{chromosomal}{Boolean parameter (default TRUE). Whether the search and output shall include features located on}
 }
 \description{
 The connection defaults to 'localhost' if not specified differently.
