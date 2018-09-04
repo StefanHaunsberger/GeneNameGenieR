@@ -14,9 +14,7 @@
 #' @seealso \code{\link{query}} and \code{\link{convertFromTo}}
 getValidDatabases = function() {
 
-              x = .postNeo4jRequest(paste("CALL rcsi.params.getValidDatabases() YIELD value",
-                                          "RETURN value.DatabaseDisplayName AS DatabaseDisplayName, value.DatabaseId AS DatabaseId",
-                                          "ORDER BY DatabaseDisplayName"));
+              x = .postNeo4jRequest(paste("CALL rcsi.params.getValidDatabases()"));
               return(x);
           }
 
@@ -33,7 +31,7 @@ getValidDatabases = function() {
 #' }
 #' @seealso \code{\link{query}}
 getValidGngAttributes = function() {
-              x = .postNeo4jRequest("CALL rcsi.params.getValidAttributes() YIELD value RETURN value AS Parameter");
+              x = .postNeo4jRequest("CALL rcsi.params.getValidAttributes()");
               return(x);
           }
 
@@ -51,7 +49,7 @@ getValidGngAttributes = function() {
 #' @seealso \code{\link{query}}
 #' @export
 getValidMirnaMetadataValues = function() {
-              x = .postNeo4jRequest("CALL rcsi.params.getValidMirnaMetadataValues() YIELD value RETURN value AS Parameter");
+              x = .postNeo4jRequest("CALL rcsi.params.getValidMirnaMetadataValues()");
               return(x);
           }
 

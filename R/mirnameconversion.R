@@ -97,7 +97,9 @@ convertToCurrentMirbaseVersion = function(queryId, species = "", metadata = NA_c
                  metadata = metadata);
 
       x = dplyr::distinct(x);
-      .postCheckMirnaTranslation2(x, queryId);
+      if (nrow(x) > 0) {
+        .postCheckMirnaTranslation2(x, queryId);
+      }
 
       return(x);
 
@@ -170,14 +172,15 @@ convertMatureMirnasToVersions = function(queryId, targetVersion = NA_integer_, s
                          "{species}, ",
                          "{sequence}",
                          ") YIELD value ",
-                         "RETURN DISTINCT value.InputId AS InputId, ",
-                         "value.MatureAccession AS MatureAccession, ",
-                         "value.miRBaseVersion AS miRBaseVersion, ",
-                         "value.TargetMirna AS TargetMirna"
+                         "RETURN ",
+                         "value.inputId AS InputId, ",
+                         "value.matureAccession AS MatureAccession, ",
+                         "value.targetMirna AS TargetMirna, ",
+                         "value.miRBaseVersion AS miRBaseVersion"
               );
 
               if (sequence) {
-                  q = paste0(q, ", value.TargetSequence AS TargetSequence");
+                  q = paste0(q, ", value.sequence AS Sequence");
               }
 
               x = .postNeo4jRequest(q,
@@ -188,7 +191,9 @@ convertMatureMirnasToVersions = function(queryId, targetVersion = NA_integer_, s
 
               x = dplyr::distinct(x);
 
-              .postCheckMirnaTranslation(x, queryId);
+              if (nrow(x) > 0) {
+                .postCheckMirnaTranslation(x, queryId);
+              }
 
               return(x);
 

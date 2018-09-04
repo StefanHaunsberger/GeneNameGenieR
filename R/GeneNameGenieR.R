@@ -106,14 +106,10 @@ source("R/utils.R")
 #' @export
 getOfficialGeneSymbol = function(queryId, sourceDb = NA_character_, chromosomal = TRUE) {
 
-  q = paste0("CALL rcsi.convert.table.getOfficialGeneSymbol(",
+  q = paste0("CALL rcsi.convert.getOfficialGeneSymbol.table(",
       ifelse(length(queryId) == 1, "[{ids}], ", "{ids}, "),
       ifelse(is.na(sourceDb), "null, ", "{sourceDb}, "),
-      "{chromosomal}) YIELD value ",
-      "RETURN ",
-      "   value.InputId AS InputId, ",
-      "   value.InputSourceDb AS InputSourceDb, ",
-      "   value.OfficialGeneSymbol AS OfficialGeneSymbol");
+      "{chromosomal})");
 
   x = .postNeo4jRequest(q,
                      ids = queryId,
@@ -162,17 +158,17 @@ convertFromTo = function(queryId, targetDb = c("GeneSymbolDB"), sourceDb = NA, l
         tDb = c(tDb, names(pkg.env$toAddDbCols));
     }
 
-    q = paste0("CALL rcsi.convert.table.convertIds(",
+    q = paste0("CALL rcsi.convert.convertIds(",
                ifelse(length(queryId) == 1, "[{ids}], ", "{ids}, "),
                ifelse(length(tDb) == 1, "[{dbs}], ", "{dbs}, "),
                # "{dbs}, ",
                ifelse(is.na(sourceDb), "null, ", "{sourceDb}, "),
                "{chromosomal}) YIELD value ",
-               "RETURN value.InputId AS InputId, ",
-               "value.InputSourceDb AS InputSourceDb, ",
+               "RETURN value.inputId AS InputId, ",
+               "value.inputSourceDb AS InputSourceDb, ",
                # "value.EnsemblGeneId AS EnsemblGeneId, ",
-               "value.TargetDb AS TargetDb, ",
-               "value.TargetId AS TargetId;");
+               "value.targetDb AS TargetDb, ",
+               "value.targetId AS TargetId;");
 
     x = .postNeo4jRequest(q,
                ids = queryId,
