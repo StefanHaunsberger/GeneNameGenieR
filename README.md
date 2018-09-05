@@ -268,21 +268,21 @@ Some of the parameters apply only to mature miRNAs whereas others only return va
 
 ```r
 getValidMirnaMetadataValues()
-             Parameter
-1           confidence
-2                 type
-3             sequence
-4             comments
-5          previousIds
-6                  url
-7           chromosome
-8          regionStart
-9            regionEnd
-10              strand
-11 communityAnnotation
-12        nExperiments
-13               reads
-14        evidenceType
+          ParameterKey                                     Description
+1           confidence                           Annotation confidence
+2                 type                                   Type of miRNA
+3             sequence                             Nucleobase sequence
+4             comments     Comments, such as general miRNA information
+5          previousIds                            Previous miRBase IDs
+6                  url                            URL to miRBase entry
+7           chromosome                                   Chromosome ID
+8          regionStart                    Location start on chromosome
+9            regionEnd                      Location end on chromosome
+10              strand                                    Strand (+/-)
+11 communityAnnotation     Annotations and comments from the community
+12        nExperiments                Number of validation experiments
+13               reads Number of reads from the validation experiments
+14        evidenceType          Type of evidence, such as experimental
 ```
 
 ### `getCurrentMirbaseVersion`: Get information on the latest miRBase release version supported by the package

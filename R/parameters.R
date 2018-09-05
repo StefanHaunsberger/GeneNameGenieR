@@ -67,4 +67,17 @@ getCurrentMirbaseVersion = function() {
               # m <- regexpr("\\d+\\.?\\d+", x1, perl=TRUE)
               # releaseVersion = regmatches(strsplit(x, ",")[[1]][1], m);
               return(x);
-          }
+}
+
+#' @title Return the Ensembl DB version of GeneNameGenie.
+#'
+#' @examples
+#' \dontrun{
+#'   getEnsemblVersion();
+#' }
+#' @export
+getEnsemblVersion = function() {
+    x = .postNeo4jRequest("MATCH (db :EnsemblDB {id: 'ArrayExpress'}) RETURN db.release AS release;")$release[1];
+    return(x);
+}
+

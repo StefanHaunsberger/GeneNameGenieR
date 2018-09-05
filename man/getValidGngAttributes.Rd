@@ -7,7 +7,7 @@
 getValidGngAttributes()
 }
 \value{
-A \preformatted{data.frame} object with the columns DatabaseDisplayName and DatabaseID.
+A \preformatted{data.frame} object with the columns `DatabaseDisplayName` and `DatabaseID`.
 }
 \description{
 Returns a table containing all supported attributes that can serve as
