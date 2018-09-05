@@ -23,7 +23,7 @@ getValidDatabases = function() {
 #' @description Returns a table containing all supported attributes that can serve as
 #' 'params' input parameter in the \code{\link{query}} function.
 #'
-#' @return A \preformatted{data.frame} object with the columns DatabaseDisplayName and DatabaseID.
+#' @return A \preformatted{data.frame} object with the columns `DatabaseDisplayName` and `DatabaseID`.
 #'
 #' @examples
 #' \dontrun{
