@@ -155,7 +155,7 @@
     xDf = as.data.frame(xL, stringsAsFactors = FALSE);
     xDf[,] = NA;
 
-    x = dplyr::arrange_(x, c(keyCols, "TargetDb"));
+    x = dplyr::arrange_(x, .dots = c(keyCols, "TargetDb"));
 
     idx = 0;
     key = "";

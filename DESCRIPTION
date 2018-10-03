@@ -1,7 +1,7 @@
 Package: GeneNameGenieR
 Type: Package
 Title: Graph DB powered molecular identifier converter: Convert any molecular identifier to any target identifier (incl. 22 miRBase versions)
-Version: 0.91.1.1
+Version: 0.91.1.2
 Authors@R: person("Stefan", "Haunsberger", "J.", email =
         "stefan.haunsberger@gmail.com", role = c("aut", "cre"))
 Maintainer: Stefan J. Haunsberger <stefan.haunsberger@gmail.com>
