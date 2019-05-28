@@ -14,6 +14,7 @@ The _GeneNameGenieR_ R package has been developed to provide functions for molec
        - [Translate mature miRNA names to different miRBase release versions](#translate-mature-mirna-names-to-different-mirbase-release-versions)
    - [List valid databases and supported parameter values](#list-valid-databases-and-supported-parameter-values)
    - [Additional information](#additional-information)
+   - [Performing Reactome Pathway Enrichment Analysis][#performing-reactome-pathway-enrichment-analysis]
 
 *Availability:* 
 
@@ -33,10 +34,12 @@ is supported by Ensembl v91. Functions include translation to the official gene 
 retrieving metadata for Ensembl genes and transcripts and translating between different
 database formats. Thereby, providing the source database of the input identifier is optional.
 
-Moreover GeneNameGeneiR supports 22 different miRBase release versions, with the most recent one 
+Moreover GeneNameGenieR supports 22 different miRBase release versions, with the most recent one 
 from March 2018, miRBase version 22. miRNAs can be translated to the most recent as well as
 any other supported miRBase version version and metadata, such as sequence, previous 
 identifiers or type, can also be included.
+
+Reactome pathway enrichment analysis can be performed on Reactome v.63.
 
 The main methods are: 
 
@@ -46,6 +49,7 @@ The main methods are:
 - `convertToCurrentMirbaseVersion`: Get current miRNA name for mature input miRNAs
 - `convertMatureMirnasToVersions`: Translate mature miRNA names to different versions.
 - `getValidMirnaMetadataValues`: List all valid miRNA metadata parameters.
+- `rpea`: Reactome pathway enrichment analysis.
 
  
 To load the package and gain access to the functions just run the 
@@ -290,6 +294,22 @@ getValidMirnaMetadataValues()
 ```r
 getCurrentMirbaseVersion()
 [1] "miRBase Release 22, March 12, 2018"
+```
+
+## Performing Reactome Pathway Enrichment Analysis
+
+```r
+GeneNameGenieR::rpea(c('PRKAA1', 'PRKAB2', 'PRKAG2', 'STK11'), pValueCutoff = 0.00001)
+     reactomeID                                         description   bgRatio geneRatio                    geneIds       pValue pValueAdjusted
+1  R-HSA-380972    Energy dependent regulation of mTOR by LKB1-AMPK  29/10592       4/4 PRKAA1,PRKAB2,PRKAG2,STK11 4.531342e-11   6.797013e-10
+2  R-HSA-165159                                     mTOR signalling  40/10592       4/4 PRKAA1,PRKAB2,PRKAG2,STK11 1.743590e-10   2.615385e-09
+3 R-HSA-6804756 Regulation of TP53 Activity through Phosphorylation  92/10592       4/4 PRKAA1,PRKAB2,PRKAG2,STK11 5.330843e-09   7.996264e-08
+4 R-HSA-5633007                         Regulation of TP53 Activity 160/10592       4/4 PRKAA1,PRKAB2,PRKAG2,STK11 5.016583e-08   7.524874e-07
+  numberOfPopulationSuccesses populationSize sampleSize numberOfSampleSuccesses
+1                          29          10592          4                       4
+2                          40          10592          4                       4
+3                          92          10592          4                       4
+4                         160          10592          4                       4
 ```
 
 ## Additional information
