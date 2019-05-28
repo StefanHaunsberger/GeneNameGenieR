@@ -13,8 +13,8 @@ The _GeneNameGenieR_ R package has been developed to provide functions for molec
        - [Translate input Ids to current version and retrieve metadata](#translate-input-ids-to-current-version-and-retrieve-metadata)
        - [Translate mature miRNA names to different miRBase release versions](#translate-mature-mirna-names-to-different-mirbase-release-versions)
    - [List valid databases and supported parameter values](#list-valid-databases-and-supported-parameter-values)
+   - [Performing Reactome Pathway Enrichment Analysis](#performing-reactome-pathway-enrichment-analysis)
    - [Additional information](#additional-information)
-   - [Performing Reactome Pathway Enrichment Analysis][#performing-reactome-pathway-enrichment-analysis]
 
 *Availability:* 
 
