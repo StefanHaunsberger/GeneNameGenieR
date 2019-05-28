@@ -15,7 +15,7 @@
 #' (other options: 'BH' - Benjamini and Hochberg)
 #'
 #'
-#' @return A data.frame object with the columns InputId, InputSourceDb and columns containing TargetDb and TargetId values.
+#' @return A data.frame object
 #'
 #' @examples
 #' \dontrun{
