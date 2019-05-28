@@ -83,7 +83,7 @@
     return(paramBody);
 }
 
-.postNeo4jRequest = function(query, ...) {
+.postNeo4jRequest = function(query, src = "", ...) {
 
     args = as.list(match.call());
 
@@ -108,6 +108,10 @@
 
         # parse JSON object
         obj = jsonlite::fromJSON(json);
+
+        if (src == "rpea") {
+            return(obj);
+        }
 
         if (req$status_code != 200) {
             httr::warn_for_status(req, paste0(obj$message));
